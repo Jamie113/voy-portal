@@ -30,24 +30,24 @@
     body { background-color: #f7f7f4; }
     .green-blob {
       position: absolute;
-      top: -40px;
-      right: -60px;
-      width: 220px;
-      height: 220px;
-      background: radial-gradient(ellipse at 60% 40%, #c8d9b0 0%, #a8c48a 50%, #7aaa5a 100%);
-      border-radius: 50% 40% 60% 50% / 50% 60% 40% 50%;
-      opacity: 0.85;
+      top: -60px;
+      right: -70px;
+      width: 240px;
+      height: 240px;
+      background: radial-gradient(ellipse at 50% 50%, #d4e8b8 0%, #a8c878 45%, #7aaa5a 100%);
+      border-radius: 62% 38% 70% 30% / 44% 56% 44% 56%;
+      opacity: 0.9;
       z-index: 0;
     }
     .green-blob-lg {
       position: absolute;
-      top: 0;
-      right: 0;
-      width: 320px;
-      height: 320px;
-      background: radial-gradient(ellipse at 60% 40%, #c8d9b0 0%, #a8c48a 50%, #7aaa5a 100%);
-      border-radius: 50% 40% 60% 50% / 50% 60% 40% 50%;
-      opacity: 0.6;
+      top: -40px;
+      right: -60px;
+      width: 340px;
+      height: 340px;
+      background: radial-gradient(ellipse at 50% 50%, #d4e8b8 0%, #a8c878 45%, #7aaa5a 100%);
+      border-radius: 62% 38% 70% 30% / 44% 56% 44% 56%;
+      opacity: 0.65;
       z-index: 0;
       pointer-events: none;
     }
@@ -106,7 +106,7 @@
       </header>
 
       <!-- Desktop page header -->
-      <div class="hidden md:block relative overflow-hidden bg-voy-bg px-8 pt-10 pb-8">
+      <div class="hidden md:block relative bg-voy-bg px-8 pt-10 pb-8 overflow-visible">
         <div class="green-blob-lg"></div>
         <div class="relative z-10">
           <button class="flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-800 mb-4 transition-colors">
@@ -167,7 +167,7 @@
             <div class="bg-white rounded-2xl p-4 shadow-sm mb-3">
               <div class="flex items-start justify-between mb-1">
                 <p class="text-xs text-gray-500">Current delivery</p>
-                <span class="bg-voy-green text-white text-xs font-medium px-2.5 py-1 rounded-full">With courier</span>
+                <span class="bg-gray-900 text-white text-xs font-medium px-2.5 py-1 rounded-full">With courier</span>
               </div>
               <p class="text-base font-semibold text-gray-900 mb-4">Mon, Jul 21, 2025</p>
               <button class="w-full border border-gray-300 rounded-full py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-50 transition-colors">
@@ -313,7 +313,7 @@
           </div>
 
           <!-- Cancel plan -->
-          <div class="text-center md:text-left pb-4">
+          <div class="text-center md:text-left pb-28 md:pb-6">
             <a href="#" class="text-sm text-gray-900 underline underline-offset-2">Cancel plan</a>
           </div>
 
