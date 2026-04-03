@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: voy-portal
+    runtime: static
+    staticPublishPath: .
+    pullRequestPreviewsEnabled: true
