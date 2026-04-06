@@ -11,10 +11,16 @@
         extend: {
           colors: {
             voy: {
-              green: '#3d5a3e',
-              'green-light': '#c8d9b0',
-              'green-pale': '#e8f0dc',
-              bg: '#f7f7f4',
+              green: '#19301E',
+              'green-pale': '#EAF0EE',
+              'green-light': '#9BD1C2',
+              stone: '#F4F1E7',
+              'light-stone': '#FCFBF8',
+              bg: '#F4F1E7',
+              hair: '#9BD1C2',
+              weight: '#FFA87C',
+              testosterone: '#B9F00A',
+              menopause: '#C6C2FF',
             }
           },
           fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] }
@@ -25,7 +31,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <style>
-    body { background-color: #f7f7f4; }
+    body { background-color: #F4F1E7; }
     .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     .hide-scrollbar::-webkit-scrollbar { display: none; }
 
@@ -38,7 +44,7 @@
 <div class="min-h-screen flex">
 
   <!-- Sidebar — desktop only -->
-  <aside class="hidden md:flex flex-col w-56 bg-white border-r border-gray-100 fixed top-0 left-0 h-full z-20">
+  <aside class="hidden md:flex flex-col w-56 bg-voy-light-stone border-r border-gray-100 fixed top-0 left-0 h-full z-20">
     <div class="px-6 pt-8 pb-6 border-b border-gray-100">
       <span class="text-2xl font-bold tracking-tight text-gray-900">voy</span>
     </div>
@@ -81,7 +87,7 @@
       <div class="px-5 md:px-8 grid grid-cols-2 gap-3 mb-10">
 
         <!-- ACTIVE: Biotin -->
-        <a href="addon.html" class="bg-white rounded-2xl overflow-hidden flex flex-col group" style="border: 1.5px solid #3d5a3e;">
+        <a href="addon.html" class="bg-voy-light-stone rounded-2xl overflow-hidden flex flex-col group" style="border: 1.5px solid #19301E;">
           <div class="h-28 bg-voy-green-pale flex items-center justify-center relative">
             <div class="absolute top-3 left-3 flex items-center gap-1 bg-voy-green text-white text-[10px] font-semibold px-2 py-0.5 rounded-full">
               <svg xmlns="http://www.w3.org/2000/svg" class="w-2.5 h-2.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
@@ -100,7 +106,7 @@
         </a>
 
         <!-- ACTIVE: SPF -->
-        <a href="addon.html" class="bg-white rounded-2xl overflow-hidden flex flex-col group" style="border: 1.5px solid #3d5a3e;">
+        <a href="addon.html" class="bg-voy-light-stone rounded-2xl overflow-hidden flex flex-col group" style="border: 1.5px solid #19301E;">
           <div class="h-28 bg-voy-green-pale flex items-center justify-center relative">
             <div class="absolute top-3 left-3 flex items-center gap-1 bg-voy-green text-white text-[10px] font-semibold px-2 py-0.5 rounded-full">
               <svg xmlns="http://www.w3.org/2000/svg" class="w-2.5 h-2.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
@@ -216,7 +222,7 @@
 
           <!-- Weight management -->
           <a href="#" class="flex-shrink-0 w-48 h-64 rounded-2xl overflow-hidden snap-start relative flex flex-col justify-end p-4" style="background: linear-gradient(160deg, #1c3a0e 0%, #2d5a1a 50%, #3d7a22 100%);">
-            <div class="absolute inset-0 opacity-20" style="background: radial-gradient(ellipse at 80% 20%, #c5e040 0%, transparent 60%);"></div>
+            <div class="absolute inset-0 opacity-20" style="background: radial-gradient(ellipse at 80% 20%, #B9F00A 0%, transparent 60%);"></div>
             <div class="relative">
               <p class="text-[10px] font-semibold text-white/50 uppercase tracking-widest mb-1.5">Weight management</p>
               <p class="text-lg font-bold text-white leading-tight mb-1">Lose weight.<br>Keep it off.</p>
