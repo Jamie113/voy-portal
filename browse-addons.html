@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>voy · Explore add-ons</title>
+  <title>voy · Explore</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -23,11 +23,15 @@
     }
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <style>
     body { background-color: #f7f7f4; }
     .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     .hide-scrollbar::-webkit-scrollbar { display: none; }
+
+    /* Add-on sheet */
+    #addon-sheet { transition: transform 0.3s ease; transform: translateY(100%); }
+    #addon-sheet.open { transform: translateY(0); }
   </style>
 </head>
 <body class="font-sans text-gray-900 antialiased bg-voy-bg">
@@ -46,352 +50,297 @@
     </nav>
   </aside>
 
-  <main class="flex-1 md:ml-56 min-h-screen pb-24">
+  <main class="flex-1 md:ml-56 min-h-screen pb-28">
 
     <!-- Mobile header -->
-    <header class="md:hidden flex items-center justify-center px-5 pt-12 pb-4">
+    <header class="md:hidden flex items-center justify-center px-5 pt-12 pb-3 relative">
       <span class="text-2xl font-bold text-gray-900">voy</span>
     </header>
 
-    <!-- Page header -->
-    <div class="px-5 md:px-8 mt-2 md:mt-10 mb-5">
-      <a href="index.html" class="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-gray-700 mb-4 transition-colors">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
-        Manage plan
-      </a>
-      <div class="flex items-end justify-between">
-        <div>
-          <h1 class="text-3xl md:text-4xl font-bold text-gray-900">Explore</h1>
-          <p class="text-sm text-gray-400 mt-1">Add-ons to enhance your treatment</p>
+    <div class="max-w-2xl mx-auto">
+
+      <!-- Back + page title -->
+      <div class="px-5 md:px-8 mt-2 md:mt-10 mb-6">
+        <a href="index.html" class="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-gray-700 mb-4 transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+          Manage plan
+        </a>
+        <h1 class="text-3xl font-bold text-gray-900 leading-tight">Explore</h1>
+        <p class="text-sm text-gray-400 mt-1">Curated for your Complete Hair Loss Plan</p>
+      </div>
+
+      <!-- ═══════════════════════════════════════════════
+           SECTION 1: YOUR ADD-ONS
+      ════════════════════════════════════════════════ -->
+      <div class="px-5 md:px-8 mb-2">
+        <h2 class="text-lg font-bold text-gray-900">Support your treatment</h2>
+        <p class="text-xs text-gray-400 mt-0.5">Clinician-selected additions that work with your plan</p>
+      </div>
+
+      <!-- Add-on card grid -->
+      <div class="px-5 md:px-8 grid grid-cols-2 gap-3 mb-10">
+
+        <!-- ACTIVE: Biotin -->
+        <a href="addon.html" class="bg-white rounded-2xl overflow-hidden flex flex-col group" style="border: 1.5px solid #3d5a3e;">
+          <div class="h-28 bg-voy-green-pale flex items-center justify-center relative">
+            <div class="absolute top-3 left-3 flex items-center gap-1 bg-voy-green text-white text-[10px] font-semibold px-2 py-0.5 rounded-full">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-2.5 h-2.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+              Added
+            </div>
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-9 h-9 text-voy-green opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m-3-3h6"/><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
+          </div>
+          <div class="p-3 flex-1 flex flex-col">
+            <p class="text-sm font-semibold text-gray-900 leading-snug">Biotin supplement</p>
+            <p class="text-xs text-gray-400 mt-0.5 flex-1">Supports hair strength from within</p>
+            <div class="flex items-center justify-between mt-3">
+              <p class="text-xs font-semibold text-gray-900">£15<span class="font-normal text-gray-400">/mo</span></p>
+              <span class="text-xs text-voy-green font-medium">Manage →</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- ACTIVE: SPF -->
+        <a href="addon.html" class="bg-white rounded-2xl overflow-hidden flex flex-col group" style="border: 1.5px solid #3d5a3e;">
+          <div class="h-28 bg-voy-green-pale flex items-center justify-center relative">
+            <div class="absolute top-3 left-3 flex items-center gap-1 bg-voy-green text-white text-[10px] font-semibold px-2 py-0.5 rounded-full">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-2.5 h-2.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+              Added
+            </div>
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-9 h-9 text-voy-green opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707M17.657 17.657l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"/></svg>
+          </div>
+          <div class="p-3 flex-1 flex flex-col">
+            <p class="text-sm font-semibold text-gray-900 leading-snug">SPF Hair &amp; Scalp</p>
+            <p class="text-xs text-gray-400 mt-0.5 flex-1">UV protection for thinning areas</p>
+            <div class="flex items-center justify-between mt-3">
+              <p class="text-xs font-semibold text-gray-900">£12<span class="font-normal text-gray-400">/mo</span></p>
+              <span class="text-xs text-voy-green font-medium">Manage →</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- AVAILABLE: Derma Roller -->
+        <div class="bg-white rounded-2xl overflow-hidden border border-gray-100 flex flex-col">
+          <div class="h-28 bg-gray-50 flex items-center justify-center relative">
+            <span class="absolute top-3 left-3 text-[10px] font-semibold text-gray-400 bg-white border border-gray-100 px-2 py-0.5 rounded-full">#1 for your plan</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-9 h-9 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2m0 14v2M3 12h2m14 0h2m-3.05-6.95-1.41 1.41M7.46 16.54l-1.41 1.41M16.95 16.95l-1.41-1.41M7.46 7.46 6.05 6.05"/></svg>
+          </div>
+          <div class="p-3 flex-1 flex flex-col">
+            <p class="text-sm font-semibold text-gray-900 leading-snug">Derma Roller 0.5mm</p>
+            <p class="text-xs text-gray-400 mt-0.5 flex-1">Boosts Minoxidil absorption by 4x</p>
+            <div class="flex items-center justify-between mt-3">
+              <p class="text-xs font-semibold text-gray-900">£18<span class="font-normal text-gray-400">/3mo</span></p>
+              <button onclick="openSheet('Derma Roller 0.5mm', '£18 / 3 months')" class="text-xs font-semibold text-white bg-voy-green px-3 py-1 rounded-full hover:opacity-90 transition-opacity">Add</button>
+            </div>
+          </div>
         </div>
-        <a href="#active" class="text-xs font-semibold text-voy-green flex items-center gap-1 mb-1">
-          Your add-ons
-          <span class="bg-voy-green text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center">2</span>
+
+        <!-- AVAILABLE: Zinc & Selenium -->
+        <div class="bg-white rounded-2xl overflow-hidden border border-gray-100 flex flex-col">
+          <div class="h-28 bg-gray-50 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-9 h-9 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>
+          </div>
+          <div class="p-3 flex-1 flex flex-col">
+            <p class="text-sm font-semibold text-gray-900 leading-snug">Zinc &amp; Selenium</p>
+            <p class="text-xs text-gray-400 mt-0.5 flex-1">Supports healthy hair growth from within</p>
+            <div class="flex items-center justify-between mt-3">
+              <p class="text-xs font-semibold text-gray-900">£10<span class="font-normal text-gray-400">/mo</span></p>
+              <button onclick="openSheet('Zinc & Selenium', '£10 / month')" class="text-xs font-semibold text-white bg-voy-green px-3 py-1 rounded-full hover:opacity-90 transition-opacity">Add</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- AVAILABLE: Caffeine Shampoo — full width -->
+        <div class="col-span-2 bg-white rounded-2xl overflow-hidden border border-gray-100">
+          <div class="flex items-center gap-4 p-4">
+            <div class="w-16 h-16 rounded-xl bg-gray-50 flex items-center justify-center flex-shrink-0">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/></svg>
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="text-sm font-semibold text-gray-900">Caffeine Shampoo</p>
+              <p class="text-xs text-gray-400 mt-0.5">Stimulates follicles and reduces DHT at the scalp</p>
+              <p class="text-xs font-semibold text-gray-900 mt-1.5">£14<span class="font-normal text-gray-400"> / month</span></p>
+            </div>
+            <button onclick="openSheet('Caffeine Shampoo', '£14 / month')" class="text-xs font-semibold text-white bg-voy-green px-3.5 py-2 rounded-full hover:opacity-90 transition-opacity flex-shrink-0">Add</button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ═══════════════════════════════════════════════
+           SECTION 2: DO HEALTH
+      ════════════════════════════════════════════════ -->
+      <div class="px-5 md:px-8 mb-10">
+        <a href="https://dohealth.co/" target="_blank" rel="noopener" class="block rounded-2xl overflow-hidden hover:opacity-95 transition-opacity" style="background: linear-gradient(140deg, #0d1f10 0%, #1a3a1e 60%, #0f2912 100%);">
+          <div class="p-6 relative overflow-hidden">
+            <!-- Subtle glow -->
+            <div class="absolute -top-12 -right-12 w-48 h-48 rounded-full pointer-events-none" style="background: radial-gradient(circle, rgba(197,224,64,0.12) 0%, transparent 70%);"></div>
+
+            <p class="text-[10px] font-semibold text-white/40 uppercase tracking-widest mb-5">In partnership with</p>
+
+            <!-- do health wordmark -->
+            <div class="flex items-baseline gap-1.5 mb-4">
+              <span class="text-3xl font-bold text-white tracking-tight">do</span>
+              <span class="text-3xl font-light text-white/60 tracking-tight">health</span>
+            </div>
+
+            <p class="text-sm text-white/70 leading-relaxed mb-6 max-w-xs">
+              Know your body inside out. Real-time insights into your biomarkers, blood health, and what your results actually mean for your treatment outcomes.
+            </p>
+
+            <!-- Value props -->
+            <div class="flex flex-wrap gap-2 mb-6">
+              <span class="text-[11px] text-white/60 bg-white/10 px-2.5 py-1 rounded-full">Blood biomarkers</span>
+              <span class="text-[11px] text-white/60 bg-white/10 px-2.5 py-1 rounded-full">At-home testing</span>
+              <span class="text-[11px] text-white/60 bg-white/10 px-2.5 py-1 rounded-full">Clinician review</span>
+            </div>
+
+            <div class="flex items-center gap-2 text-sm font-semibold text-white">
+              Explore do health
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+            </div>
+          </div>
         </a>
       </div>
-    </div>
 
-    <!-- ── FEATURED / HERO SLOT ──────────────────────
-         This is the primary merchandising space —
-         swap content here for promotions, new launches,
-         seasonal campaigns etc.                        -->
-    <div class="px-5 md:px-8 mb-7">
-      <div class="rounded-2xl overflow-hidden shadow-sm relative" style="background: linear-gradient(135deg, #2d4a2e 0%, #3d5a3e 60%, #5a8a5c 100%);">
-        <div class="px-5 py-6">
-          <span class="text-xs font-semibold text-white/60 uppercase tracking-widest">Recommended for you</span>
-          <h2 class="text-xl font-bold text-white mt-2 mb-1">Derma Roller 0.5mm</h2>
-          <p class="text-sm text-white/70 mb-4 max-w-xs">Clinically shown to boost Minoxidil absorption by up to 4x. Most popular add-on for patients on your plan.</p>
-          <div class="flex items-center justify-between">
-            <div>
-              <p class="text-white font-bold text-lg">£18 <span class="text-white/60 text-sm font-normal">/ 3 months</span></p>
-            </div>
-            <button onclick="addAddon(this, 'Derma Roller 0.5mm')" class="bg-white text-voy-green text-sm font-semibold px-4 py-2 rounded-full hover:bg-white/90 transition-colors">
-              Add to plan
-            </button>
-          </div>
-        </div>
-        <!-- Decorative circle -->
-        <div class="absolute -right-8 -top-8 w-36 h-36 rounded-full bg-white/5"></div>
-        <div class="absolute -right-4 -bottom-10 w-28 h-28 rounded-full bg-white/5"></div>
-      </div>
-    </div>
-
-    <!-- ── BASED ON YOUR PLAN ────────────────────────
-         Curated horizontal rail — swap in algorithmic
-         recommendations, bundles, or seasonal picks.   -->
-    <div class="mb-7">
-      <div class="flex items-center justify-between px-5 md:px-8 mb-3">
-        <p class="text-base font-bold text-gray-900">Based on your plan</p>
-        <button class="text-xs text-gray-400 hover:text-gray-600">See all</button>
-      </div>
-      <div class="flex gap-3 overflow-x-auto hide-scrollbar px-5 md:px-8 pb-1">
-
-        <!-- Rec card: Biotin -->
-        <div class="flex-shrink-0 w-44 bg-white rounded-2xl p-4 shadow-sm">
-          <div class="w-10 h-10 rounded-xl bg-voy-green-pale flex items-center justify-center mb-3">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-voy-green" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m-3-3h6"/><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
-          </div>
-          <p class="text-sm font-semibold text-gray-900 leading-snug mb-0.5">Biotin supplement</p>
-          <p class="text-xs text-gray-400 mb-3">Supports hair strength from within</p>
-          <div class="flex items-center justify-between">
-            <p class="text-sm font-bold text-gray-900">£15<span class="text-[10px] text-gray-400 font-normal">/mo</span></p>
-            <span class="text-[10px] font-semibold text-voy-green bg-voy-green-pale px-1.5 py-0.5 rounded-full">Active</span>
-          </div>
+      <!-- ═══════════════════════════════════════════════
+           SECTION 3: OTHER TREATMENTS
+      ════════════════════════════════════════════════ -->
+      <div class="mb-8">
+        <div class="px-5 md:px-8 mb-4">
+          <h2 class="text-lg font-bold text-gray-900">Your healthiest years</h2>
+          <p class="text-xs text-gray-400 mt-0.5">Clinician-led plans built around your long-term health</p>
         </div>
 
-        <!-- Rec card: Zinc -->
-        <div class="flex-shrink-0 w-44 bg-white rounded-2xl p-4 shadow-sm">
-          <div class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center mb-3">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m-3-3h6"/><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
-          </div>
-          <p class="text-sm font-semibold text-gray-900 leading-snug mb-0.5">Zinc & Selenium</p>
-          <p class="text-xs text-gray-400 mb-3">Popular with Finasteride users</p>
-          <div class="flex items-center justify-between">
-            <p class="text-sm font-bold text-gray-900">£10<span class="text-[10px] text-gray-400 font-normal">/mo</span></p>
-            <button onclick="addAddonSmall(this)" class="text-[10px] font-semibold text-voy-green border border-voy-green rounded-full px-2 py-0.5 hover:bg-voy-green-pale transition-colors">Add</button>
-          </div>
-        </div>
+        <!-- Horizontal scroll rail of treatment cards -->
+        <div class="flex gap-3 overflow-x-auto px-5 md:px-8 pb-2 hide-scrollbar snap-x snap-mandatory">
 
-        <!-- Rec card: Caffeine shampoo -->
-        <div class="flex-shrink-0 w-44 bg-white rounded-2xl p-4 shadow-sm">
-          <div class="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center mb-3">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15M14.25 3.104c.251.023.501.05.75.082M19.8 15a2.25 2.25 0 01-2.15 2.395l-4.9.49a2.25 2.25 0 01-2.5-2.245"/></svg>
-          </div>
-          <p class="text-sm font-semibold text-gray-900 leading-snug mb-0.5">Caffeine Shampoo</p>
-          <p class="text-xs text-gray-400 mb-3">Stimulates follicles, reduces DHT</p>
-          <div class="flex items-center justify-between">
-            <p class="text-sm font-bold text-gray-900">£14<span class="text-[10px] text-gray-400 font-normal">/mo</span></p>
-            <button onclick="addAddonSmall(this)" class="text-[10px] font-semibold text-voy-green border border-voy-green rounded-full px-2 py-0.5 hover:bg-voy-green-pale transition-colors">Add</button>
-          </div>
-        </div>
-
-        <!-- Rec card: Progress kit -->
-        <div class="flex-shrink-0 w-44 bg-white rounded-2xl p-4 shadow-sm">
-          <div class="w-10 h-10 rounded-xl bg-rose-50 flex items-center justify-center mb-3">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-rose-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z"/></svg>
-          </div>
-          <div class="flex items-center gap-1 mb-0.5">
-            <p class="text-sm font-semibold text-gray-900 leading-snug">Progress kit</p>
-            <span class="text-[9px] font-bold text-amber-600 bg-amber-50 px-1 py-0.5 rounded">NEW</span>
-          </div>
-          <p class="text-xs text-gray-400 mb-3">Monthly photos + clinician review</p>
-          <div class="flex items-center justify-between">
-            <p class="text-sm font-bold text-gray-900">£20<span class="text-[10px] text-gray-400 font-normal">/mo</span></p>
-            <button onclick="addAddonSmall(this)" class="text-[10px] font-semibold text-voy-green border border-voy-green rounded-full px-2 py-0.5 hover:bg-voy-green-pale transition-colors">Add</button>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- ── CATEGORY FILTER ───────────────────────── -->
-    <div class="flex gap-2 overflow-x-auto hide-scrollbar px-5 md:px-8 mb-5">
-      <button onclick="setFilter(this)" class="filter-pill flex-shrink-0 text-xs font-semibold px-3.5 py-1.5 rounded-full bg-gray-900 text-white">All</button>
-      <button onclick="setFilter(this)" class="filter-pill flex-shrink-0 text-xs font-semibold px-3.5 py-1.5 rounded-full bg-white text-gray-500 shadow-sm">Supplements</button>
-      <button onclick="setFilter(this)" class="filter-pill flex-shrink-0 text-xs font-semibold px-3.5 py-1.5 rounded-full bg-white text-gray-500 shadow-sm">Topical</button>
-      <button onclick="setFilter(this)" class="filter-pill flex-shrink-0 text-xs font-semibold px-3.5 py-1.5 rounded-full bg-white text-gray-500 shadow-sm">Devices</button>
-      <button onclick="setFilter(this)" class="filter-pill flex-shrink-0 text-xs font-semibold px-3.5 py-1.5 rounded-full bg-white text-gray-500 shadow-sm">Skincare</button>
-    </div>
-
-    <!-- ── FULL CATALOGUE ────────────────────────── -->
-    <div class="px-5 md:px-8">
-
-      <!-- Derma Roller -->
-      <div class="bg-white rounded-2xl p-4 shadow-sm mb-3">
-        <div class="flex items-start gap-3">
-          <div class="w-14 h-14 rounded-xl bg-purple-50 flex items-center justify-center flex-shrink-0">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
-          </div>
-          <div class="flex-1">
-            <div class="flex items-start justify-between mb-1">
-              <p class="text-sm font-semibold text-gray-900">Derma Roller 0.5mm</p>
-              <span class="text-xs font-semibold text-white bg-voy-green px-1.5 py-0.5 rounded-md ml-2 flex-shrink-0">#1 pick</span>
-            </div>
-            <p class="text-xs text-gray-400 mb-3">Boosts Minoxidil absorption by up to 4x. Use weekly on dry scalp before applying spray.</p>
-            <div class="flex items-center justify-between">
-              <p class="text-sm font-bold text-gray-900">£18 <span class="text-xs font-normal text-gray-400">/ 3 months</span></p>
-              <button onclick="addAddon(this, 'Derma Roller')" class="text-xs font-semibold text-voy-green border border-voy-green rounded-full px-3 py-1 hover:bg-voy-green-pale transition-colors">Add to plan</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Caffeine Shampoo -->
-      <div class="bg-white rounded-2xl p-4 shadow-sm mb-3">
-        <div class="flex items-start gap-3">
-          <div class="w-14 h-14 rounded-xl bg-amber-50 flex items-center justify-center flex-shrink-0">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5"/></svg>
-          </div>
-          <div class="flex-1">
-            <div class="flex items-start justify-between mb-1">
-              <p class="text-sm font-semibold text-gray-900">Caffeine Shampoo</p>
-              <div class="flex items-center gap-1 ml-2 flex-shrink-0">
-                <span class="text-xs text-red-400 font-medium">3 left</span>
+          <!-- Weight management -->
+          <a href="#" class="flex-shrink-0 w-48 h-64 rounded-2xl overflow-hidden snap-start relative flex flex-col justify-end p-4" style="background: linear-gradient(160deg, #1c3a0e 0%, #2d5a1a 50%, #3d7a22 100%);">
+            <div class="absolute inset-0 opacity-20" style="background: radial-gradient(ellipse at 80% 20%, #c5e040 0%, transparent 60%);"></div>
+            <div class="relative">
+              <p class="text-[10px] font-semibold text-white/50 uppercase tracking-widest mb-1.5">Weight management</p>
+              <p class="text-lg font-bold text-white leading-tight mb-1">Lose weight.<br>Keep it off.</p>
+              <p class="text-xs text-white/60 mb-4 leading-relaxed">GLP-1 supported plans with lifestyle coaching</p>
+              <div class="flex items-center justify-between">
+                <p class="text-xs text-white/50">From £79/mo</p>
+                <span class="text-xs font-semibold text-white flex items-center gap-1">
+                  Explore
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+                </span>
               </div>
             </div>
-            <p class="text-xs text-gray-400 mb-3">Stimulates follicles and reduces DHT at the scalp. Works alongside your treatment.</p>
-            <div class="flex items-center justify-between">
-              <p class="text-sm font-bold text-gray-900">£14 <span class="text-xs font-normal text-gray-400">/ month</span></p>
-              <button onclick="addAddon(this, 'Caffeine Shampoo')" class="text-xs font-semibold text-voy-green border border-voy-green rounded-full px-3 py-1 hover:bg-voy-green-pale transition-colors">Add to plan</button>
+          </a>
+
+          <!-- Testosterone -->
+          <a href="#" class="flex-shrink-0 w-48 h-64 rounded-2xl overflow-hidden snap-start relative flex flex-col justify-end p-4" style="background: linear-gradient(160deg, #0e1f3a 0%, #1a3060 50%, #1e3d7a 100%);">
+            <div class="absolute inset-0 opacity-20" style="background: radial-gradient(ellipse at 80% 20%, #60a5fa 0%, transparent 60%);"></div>
+            <div class="relative">
+              <p class="text-[10px] font-semibold text-white/50 uppercase tracking-widest mb-1.5">Testosterone</p>
+              <p class="text-lg font-bold text-white leading-tight mb-1">Feel like<br>yourself again.</p>
+              <p class="text-xs text-white/60 mb-4 leading-relaxed">TRT plans personalised to your hormone profile</p>
+              <div class="flex items-center justify-between">
+                <p class="text-xs text-white/50">From £59/mo</p>
+                <span class="text-xs font-semibold text-white flex items-center gap-1">
+                  Explore
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+                </span>
+              </div>
             </div>
-          </div>
+          </a>
+
+          <!-- Erectile dysfunction / Sexual health -->
+          <a href="#" class="flex-shrink-0 w-48 h-64 rounded-2xl overflow-hidden snap-start relative flex flex-col justify-end p-4" style="background: linear-gradient(160deg, #2a1208 0%, #4a200f 50%, #6b3015 100%);">
+            <div class="absolute inset-0 opacity-20" style="background: radial-gradient(ellipse at 80% 20%, #fb923c 0%, transparent 60%);"></div>
+            <div class="relative">
+              <p class="text-[10px] font-semibold text-white/50 uppercase tracking-widest mb-1.5">Sexual health</p>
+              <p class="text-lg font-bold text-white leading-tight mb-1">Confidence.<br>On demand.</p>
+              <p class="text-xs text-white/60 mb-4 leading-relaxed">Discreet, clinician-prescribed ED treatment</p>
+              <div class="flex items-center justify-between">
+                <p class="text-xs text-white/50">From £19/mo</p>
+                <span class="text-xs font-semibold text-white flex items-center gap-1">
+                  Explore
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+                </span>
+              </div>
+            </div>
+          </a>
+
         </div>
       </div>
 
-      <!-- Zinc & Selenium -->
-      <div class="bg-white rounded-2xl p-4 shadow-sm mb-3">
-        <div class="flex items-start gap-3">
-          <div class="w-14 h-14 rounded-xl bg-blue-50 flex items-center justify-center flex-shrink-0">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m-3-3h6"/><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
-          </div>
-          <div class="flex-1">
-            <p class="text-sm font-semibold text-gray-900 mb-1">Zinc &amp; Selenium Complex</p>
-            <p class="text-xs text-gray-400 mb-3">Supports healthy hair growth from within. Popular pairing with Finasteride.</p>
-            <div class="flex items-center justify-between">
-              <p class="text-sm font-bold text-gray-900">£10 <span class="text-xs font-normal text-gray-400">/ month</span></p>
-              <button onclick="addAddon(this, 'Zinc & Selenium')" class="text-xs font-semibold text-voy-green border border-voy-green rounded-full px-3 py-1 hover:bg-voy-green-pale transition-colors">Add to plan</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Progress kit -->
-      <div class="bg-white rounded-2xl p-4 shadow-sm mb-3">
-        <div class="flex items-start gap-3">
-          <div class="w-14 h-14 rounded-xl bg-rose-50 flex items-center justify-center flex-shrink-0">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-rose-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z"/></svg>
-          </div>
-          <div class="flex-1">
-            <div class="flex items-center gap-2 mb-1">
-              <p class="text-sm font-semibold text-gray-900">Progress tracking kit</p>
-              <span class="text-xs font-bold text-amber-600 bg-amber-50 px-1.5 py-0.5 rounded-md">New</span>
-            </div>
-            <p class="text-xs text-gray-400 mb-3">Monthly photo guide + clinician review to track your results over time.</p>
-            <div class="flex items-center justify-between">
-              <p class="text-sm font-bold text-gray-900">£20 <span class="text-xs font-normal text-gray-400">/ month</span></p>
-              <button onclick="addAddon(this, 'Progress kit')" class="text-xs font-semibold text-voy-green border border-voy-green rounded-full px-3 py-1 hover:bg-voy-green-pale transition-colors">Add to plan</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- SPF -->
-      <div class="bg-white rounded-2xl p-4 shadow-sm mb-3">
-        <div class="flex items-start gap-3">
-          <div class="w-14 h-14 rounded-xl bg-yellow-50 flex items-center justify-center flex-shrink-0">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707M17.657 17.657l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"/></svg>
-          </div>
-          <div class="flex-1">
-            <p class="text-sm font-semibold text-gray-900 mb-1">SPF Hair &amp; Scalp Protection</p>
-            <p class="text-xs text-gray-400 mb-3">UV protection for thinning hair areas. Lightweight, non-greasy formula.</p>
-            <div class="flex items-center justify-between">
-              <p class="text-sm font-bold text-gray-900">£12 <span class="text-xs font-normal text-gray-400">/ month</span></p>
-              <span class="text-xs font-semibold text-voy-green bg-voy-green-pale px-2.5 py-1 rounded-full">Active</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- ── YOUR ACTIVE ADD-ONS ───────────────────── -->
-    <div id="active" class="px-5 md:px-8 mt-8">
-      <p class="text-xs text-gray-400 font-medium uppercase tracking-wide mb-3">Your active add-ons</p>
-      <div class="bg-white rounded-2xl overflow-hidden shadow-sm">
-        <a href="addon.html" class="flex items-center gap-3 p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors">
-          <p class="text-sm font-medium text-gray-900 flex-1">Biotin supplement</p>
-          <p class="text-xs text-gray-400">£15/mo</p>
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
-        </a>
-        <a href="addon.html" class="flex items-center gap-3 p-4 hover:bg-gray-50 transition-colors">
-          <p class="text-sm font-medium text-gray-900 flex-1">SPF Hair &amp; Scalp Protection</p>
-          <p class="text-xs text-gray-400">£12/mo</p>
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
-        </a>
-      </div>
-    </div>
-
+    </div><!-- /max-w-2xl -->
   </main>
+
+  <!-- Mobile bottom nav -->
+  <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 flex items-center justify-around py-3 z-20">
+    <a href="index.html" class="flex flex-col items-center gap-1 text-gray-400">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+      <span class="text-[10px] font-medium">Home</span>
+    </a>
+    <a href="#" class="flex flex-col items-center gap-1 text-voy-green">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+      <span class="text-[10px] font-medium">Explore</span>
+    </a>
+    <a href="#" class="flex flex-col items-center gap-1 text-gray-400">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+      <span class="text-[10px] font-medium">Account</span>
+    </a>
+  </nav>
+
 </div>
 
 <!-- Add to plan confirmation sheet -->
-<div id="confirm-sheet" class="fixed inset-0 md:left-56 z-50 flex items-end justify-center pointer-events-none">
-  <div id="sheet-scrim" class="absolute inset-0 bg-gray-900/40 backdrop-blur-sm opacity-0 transition-opacity duration-300"></div>
-  <div id="sheet-body" class="relative bg-white rounded-t-3xl px-5 pt-5 pb-10 md:max-w-2xl w-full translate-y-full transition-transform duration-300 ease-out">
-    <div class="w-10 h-1 bg-gray-200 rounded-full mx-auto mb-5"></div>
-    <p class="text-xs text-gray-400 mb-1">Adding to your plan</p>
-    <p class="text-lg font-bold text-gray-900 mb-1" id="sheet-product-name"></p>
-    <p class="text-sm text-gray-400 mb-5">Billed and shipped separately from your main plan. Cancel this add-on any time.</p>
-    <div class="flex items-center justify-between bg-gray-50 rounded-xl px-4 py-3 mb-5">
-      <p class="text-sm text-gray-600">First charge</p>
-      <p class="text-sm font-semibold text-gray-900" id="sheet-price"></p>
-    </div>
-    <button onclick="confirmAdd()" class="w-full bg-voy-green text-white rounded-full py-3.5 text-sm font-semibold mb-3">Confirm — add to plan</button>
-    <button onclick="closeSheet()" class="w-full text-sm text-gray-400 py-2 hover:text-gray-600 transition-colors">Cancel</button>
+<div id="sheet-overlay" class="fixed inset-0 bg-black/40 z-30 hidden" onclick="closeSheet()"></div>
+<div id="addon-sheet" class="fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl z-40 p-6 pb-10 max-w-lg mx-auto" style="transform: translateY(100%); transition: transform 0.3s ease;">
+  <div class="w-10 h-1 bg-gray-200 rounded-full mx-auto mb-5"></div>
+  <p class="text-xs text-gray-400 uppercase tracking-widest mb-1">Add to your plan</p>
+  <p id="sheet-product-name" class="text-xl font-bold text-gray-900 mb-1"></p>
+  <p id="sheet-price" class="text-sm text-gray-500 mb-5"></p>
+  <div class="bg-voy-green-pale rounded-xl px-4 py-3 mb-6">
+    <p class="text-xs text-voy-green font-medium">First charge on your next billing date. Cancel any time.</p>
   </div>
+  <button onclick="confirmAdd()" class="w-full bg-voy-green text-white font-semibold rounded-full py-3.5 text-sm hover:opacity-90 transition-opacity mb-3">Confirm — add to plan</button>
+  <button onclick="closeSheet()" class="w-full text-gray-400 text-sm py-2">Cancel</button>
 </div>
 
-<!-- Mobile bottom nav -->
-<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 flex items-center justify-around px-4 py-3 z-20">
-  <a href="index.html" class="flex flex-col items-center gap-0.5 text-voy-green">
-    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-    <span class="text-[10px] font-medium">Home</span>
-  </a>
-  <a href="#" class="flex flex-col items-center gap-0.5 text-gray-400">
-    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
-    <span class="text-[10px] font-medium">Support</span>
-  </a>
-  <a href="#" class="flex flex-col items-center gap-0.5 text-gray-400">
-    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
-    <span class="text-[10px] font-medium">Progress</span>
-  </a>
-  <a href="#" class="flex flex-col items-center gap-0.5 text-gray-400">
-    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-    <span class="text-[10px] font-medium">Account</span>
-  </a>
-</nav>
+<!-- Success overlay -->
+<div id="success-overlay" class="fixed inset-0 bg-white z-50 flex flex-col items-center justify-center p-8 hidden">
+  <div class="w-16 h-16 bg-voy-green-pale rounded-full flex items-center justify-center mb-5">
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-voy-green" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+  </div>
+  <p class="text-xl font-bold text-gray-900 mb-1">Added to your plan</p>
+  <p id="success-product" class="text-sm text-gray-400 mb-8 text-center"></p>
+  <a href="index.html" class="w-full max-w-xs bg-voy-green text-white font-semibold rounded-full py-3.5 text-sm text-center hover:opacity-90 transition-opacity">Back to plan</a>
+</div>
 
 <script>
-  const prices = {
-    'Derma Roller 0.5mm': '£18 every 3 months',
-    'Derma Roller': '£18 every 3 months',
-    'Caffeine Shampoo': '£14 / month',
-    'Zinc & Selenium': '£10 / month',
-    'Progress kit': '£20 / month',
-  };
+  let currentProduct = '';
 
-  let pendingBtn = null;
-
-  function setFilter(btn) {
-    document.querySelectorAll('.filter-pill').forEach(b => {
-      b.className = 'filter-pill flex-shrink-0 text-xs font-semibold px-3.5 py-1.5 rounded-full bg-white text-gray-500 shadow-sm';
-    });
-    btn.className = 'filter-pill flex-shrink-0 text-xs font-semibold px-3.5 py-1.5 rounded-full bg-gray-900 text-white';
-  }
-
-  function addAddon(btn, name) {
-    pendingBtn = btn;
+  function openSheet(name, price) {
+    currentProduct = name;
     document.getElementById('sheet-product-name').textContent = name;
-    document.getElementById('sheet-price').textContent = prices[name] || '—';
-    openSheet();
-  }
-
-  function addAddonSmall(btn) {
-    const card = btn.closest('.flex-shrink-0');
-    const name = card.querySelector('.text-sm.font-semibold').textContent.trim();
-    addAddon(btn, name);
-    pendingBtn = btn;
-  }
-
-  function openSheet() {
-    const sheet = document.getElementById('confirm-sheet');
-    sheet.classList.remove('pointer-events-none');
-    document.getElementById('sheet-scrim').style.opacity = '1';
-    document.getElementById('sheet-body').style.transform = 'translateY(0)';
-    document.body.style.overflow = 'hidden';
+    document.getElementById('sheet-price').textContent = price + ' · Billed separately';
+    document.getElementById('sheet-overlay').classList.remove('hidden');
+    setTimeout(() => {
+      document.getElementById('addon-sheet').style.transform = 'translateY(0)';
+    }, 10);
   }
 
   function closeSheet() {
-    document.getElementById('sheet-scrim').style.opacity = '0';
-    document.getElementById('sheet-body').style.transform = 'translateY(100%)';
-    document.getElementById('confirm-sheet').classList.add('pointer-events-none');
-    document.body.style.overflow = '';
-    pendingBtn = null;
+    document.getElementById('addon-sheet').style.transform = 'translateY(100%)';
+    setTimeout(() => {
+      document.getElementById('sheet-overlay').classList.add('hidden');
+    }, 300);
   }
 
   function confirmAdd() {
-    if (pendingBtn) {
-      pendingBtn.textContent = 'Added ✓';
-      pendingBtn.className = pendingBtn.className
-        .replace('text-voy-green border border-voy-green', 'text-gray-400 border border-gray-200 cursor-default')
-        .replace('text-[10px] font-semibold text-voy-green border border-voy-green rounded-full px-2 py-0.5 hover:bg-voy-green-pale transition-colors', 'text-[10px] font-semibold text-gray-400 border border-gray-200 rounded-full px-2 py-0.5 cursor-default');
-      pendingBtn.onclick = null;
-    }
     closeSheet();
+    document.getElementById('success-product').textContent = currentProduct + ' will appear in your next delivery.';
+    setTimeout(() => {
+      document.getElementById('success-overlay').classList.remove('hidden');
+    }, 350);
   }
-
-  // Close on scrim tap
-  document.getElementById('sheet-scrim').onclick = closeSheet;
 </script>
+
 </body>
 </html>
