@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>voy · Change plan</title>
+  <title>voy · Choose your plan</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -19,8 +19,6 @@
               bg: '#F4F1E7',
               hair: '#9BD1C2',
               weight: '#FFA87C',
-              testosterone: '#B9F00A',
-              menopause: '#C6C2FF',
             }
           },
           fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] }
@@ -32,8 +30,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <style>
     body { background-color: #F4F1E7; overflow-x: hidden; }
-
-    /* Plan switch sheet */
     #plan-sheet { transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1); transform: translateY(100%); }
     #plan-sheet.open { transform: translateY(0); }
   </style>
@@ -57,165 +53,216 @@
   <main class="flex-1 min-w-0 md:ml-56 min-h-screen pb-28">
 
     <!-- Mobile header -->
-    <header class="md:hidden flex items-center justify-center px-5 pt-12 pb-3 relative">
+    <header class="md:hidden flex items-center justify-center px-5 pt-12 pb-3">
       <span class="text-2xl font-bold text-gray-900">voy</span>
     </header>
 
     <div class="max-w-2xl mx-auto">
 
       <!-- Back + page title -->
-      <div class="px-5 md:px-8 mt-2 md:mt-10 mb-6">
+      <div class="px-5 md:px-8 mt-2 md:mt-10 mb-8">
         <a href="index.html" class="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-gray-700 mb-4 transition-colors">
           <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
           Manage plan
         </a>
-        <h1 class="text-3xl font-bold text-gray-900 leading-tight">Change plan</h1>
-        <p class="text-sm text-gray-400 mt-1">All plan changes are reviewed by your clinician before taking effect</p>
+        <h1 class="text-3xl font-bold text-gray-900 leading-tight">Choose your plan</h1>
+        <p class="text-sm text-gray-400 mt-1.5">Clinician-designed programmes for every stage of your journey</p>
       </div>
 
       <!-- Plan cards -->
-      <div class="px-5 md:px-8 space-y-3 mb-6">
+      <div class="px-5 md:px-8 space-y-4 mb-10">
 
-        <!-- ── ADVANCED — current plan (two-tone hero card) ── -->
-        <div class="bg-voy-light-stone rounded-2xl shadow-sm overflow-hidden" style="border: 1.5px solid #19301E;">
-          <div class="bg-voy-green px-5 pt-5 pb-5 relative overflow-hidden">
-            <div class="absolute -top-8 -right-8 w-32 h-32 rounded-full pointer-events-none" style="background: radial-gradient(circle, rgba(197,224,64,0.2) 0%, transparent 70%);"></div>
-            <div class="flex items-start justify-between gap-3 relative z-10">
+        <!-- ── ADVANCED — current ─────────────────────── -->
+        <div class="bg-white rounded-2xl overflow-hidden" style="border: 2px solid #19301E;">
+          <div class="p-5">
+
+            <!-- Top row: tier label + current badge -->
+            <div class="flex items-center justify-between mb-4">
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-bold text-voy-green uppercase tracking-widest">Advanced</span>
+                <span class="inline-flex items-center gap-1 text-[10px] font-semibold text-voy-green bg-voy-green-pale px-2 py-0.5 rounded-full">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-2.5 h-2.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                  Current plan
+                </span>
+              </div>
+            </div>
+
+            <!-- Outcome headline + price -->
+            <div class="flex items-start justify-between gap-4 mb-4">
               <div class="min-w-0">
-                <div class="flex flex-wrap items-center gap-1.5 mb-1.5">
-                  <span class="text-[10px] font-semibold text-white/70 bg-white/15 px-2 py-0.5 rounded-full uppercase tracking-wide">Advanced</span>
-                  <span class="text-[10px] font-semibold text-voy-green bg-voy-weight px-2 py-0.5 rounded-full">Your current plan</span>
-                </div>
-                <p class="text-base font-bold text-white leading-snug">Complete Hair Loss Plan</p>
-                <p class="text-xs text-white/50 mt-1 leading-relaxed">Dual-agent treatment combining DHT-blockers and Minoxidil with monthly clinical oversight for comprehensive coverage.</p>
+                <p class="text-xl font-bold text-gray-900 leading-snug mb-1">Complete coverage</p>
+                <p class="text-sm text-gray-400 leading-relaxed">Dual-agent treatment with full clinical support — the most comprehensive hair loss programme we offer.</p>
               </div>
               <div class="text-right flex-shrink-0">
-                <p class="text-xl font-bold text-white">£125<span class="text-sm font-normal text-white/60">/yr</span></p>
-                <p class="text-xs text-white/40 mt-0.5">£10.42/mo</p>
+                <p class="text-2xl font-bold text-gray-900">£125</p>
+                <p class="text-xs text-gray-400 whitespace-nowrap">per year</p>
+                <p class="text-xs text-gray-300 mt-0.5">£10.42/mo</p>
               </div>
             </div>
-          </div>
-          <div class="px-5 py-3.5">
-            <div class="flex flex-wrap gap-x-5 gap-y-1.5">
-              <div class="flex items-center gap-1.5">
-                <div class="w-1.5 h-1.5 rounded-full bg-voy-green flex-shrink-0"></div>
-                <p class="text-xs text-gray-600">Finasteride 1mg + Minoxidil 5%</p>
+
+            <!-- Feature list -->
+            <div class="space-y-2.5 mb-5">
+              <div class="flex items-center gap-2.5">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-voy-green flex-shrink-0" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                <span class="text-sm text-gray-700">Finasteride 1mg + Minoxidil 5%</span>
               </div>
-              <div class="flex items-center gap-1.5">
-                <div class="w-1.5 h-1.5 rounded-full bg-voy-green flex-shrink-0"></div>
-                <p class="text-xs text-gray-600">Derma Roller + Caffeine Shampoo</p>
+              <div class="flex items-center gap-2.5">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-voy-green flex-shrink-0" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                <span class="text-sm text-gray-700">Derma Roller + Caffeine Shampoo</span>
               </div>
-              <div class="flex items-center gap-1.5">
-                <div class="w-1.5 h-1.5 rounded-full bg-voy-green flex-shrink-0"></div>
-                <p class="text-xs text-gray-600">Monthly clinical check-ins</p>
+              <div class="flex items-center gap-2.5">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-voy-green flex-shrink-0" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                <span class="text-sm text-gray-700">Monthly clinical check-ins</span>
+              </div>
+              <div class="flex items-center gap-2.5">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-voy-green flex-shrink-0" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                <span class="text-sm text-gray-700">Annual at-home blood test</span>
               </div>
             </div>
+
+            <!-- Current plan indicator (replaces CTA button) -->
+            <div class="flex items-center justify-center gap-2 bg-voy-green-pale rounded-xl px-4 py-3">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-voy-green" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+              <span class="text-sm font-semibold text-voy-green">This is your current plan</span>
+            </div>
+
           </div>
         </div>
 
-        <!-- ── PREVENTION ── -->
-        <div class="bg-white rounded-2xl overflow-hidden border border-gray-100">
-          <div class="flex">
-            <div class="w-1.5 flex-shrink-0 rounded-l-2xl" style="background: #9BD1C2;"></div>
-            <div class="flex-1 p-4">
-              <div class="flex items-start justify-between gap-3 mb-3">
-                <div class="min-w-0">
-                  <div class="flex flex-wrap items-center gap-1.5 mb-1.5">
-                    <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full uppercase tracking-wide" style="color: #19301E; background: #EAF0EE;">Prevention</span>
-                    <span class="text-[10px] text-gray-400">Early-stage · side-effect sensitive</span>
-                  </div>
-                  <p class="text-sm font-bold text-gray-900">Lower dosage, built to last</p>
-                  <p class="text-xs text-gray-400 mt-0.5 leading-relaxed">Gentle DHT-blocking and Minoxidil treatment with 6-month dosage reviews as your hair responds.</p>
-                </div>
-                <div class="text-right flex-shrink-0">
-                  <p class="text-sm font-bold text-gray-900">From £89<span class="text-xs font-normal text-gray-400">/yr</span></p>
-                </div>
+        <!-- ── PREVENTION ─────────────────────────────── -->
+        <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden">
+          <div class="p-5">
+
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-xs font-bold text-gray-400 uppercase tracking-widest">Prevention</span>
+              <span class="text-[11px] text-gray-400">Early-stage · side-effect sensitive</span>
+            </div>
+
+            <div class="flex items-start justify-between gap-4 mb-4">
+              <div class="min-w-0">
+                <p class="text-xl font-bold text-gray-900 leading-snug mb-1">Gentle protection</p>
+                <p class="text-sm text-gray-400 leading-relaxed">Lower dosage with 6-month reviews — ideal if you're sensitive to side effects or in the early stages.</p>
               </div>
-              <div class="flex items-center justify-between pt-3 border-t border-gray-100">
-                <div class="flex flex-wrap gap-x-1 gap-y-1 text-[11px] text-gray-500">
-                  <span>Low-dose Finasteride</span>
-                  <span class="text-gray-300">·</span>
-                  <span>Minoxidil</span>
-                  <span class="text-gray-300">·</span>
-                  <span>Clinician support</span>
-                </div>
-                <button onclick="openPlanSheet('Prevention', 'From £89 / year')" class="text-xs font-semibold text-voy-green hover:opacity-70 transition-opacity whitespace-nowrap ml-3">Switch →</button>
+              <div class="text-right flex-shrink-0">
+                <p class="text-2xl font-bold text-gray-900">£89</p>
+                <p class="text-xs text-gray-400 whitespace-nowrap">per year</p>
               </div>
             </div>
+
+            <div class="space-y-2.5 mb-5">
+              <div class="flex items-center gap-2.5">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-300 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                <span class="text-sm text-gray-700">Low-dose Finasteride</span>
+              </div>
+              <div class="flex items-center gap-2.5">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-300 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                <span class="text-sm text-gray-700">Minoxidil 5%</span>
+              </div>
+              <div class="flex items-center gap-2.5">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-300 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                <span class="text-sm text-gray-700">6-monthly clinical reviews</span>
+              </div>
+            </div>
+
+            <button onclick="openPlanSheet('Prevention', '£89 / year')" class="w-full bg-voy-green text-white rounded-xl py-3.5 text-sm font-semibold hover:opacity-90 transition-opacity">
+              Switch to Prevention
+            </button>
+
           </div>
         </div>
 
-        <!-- ── MAINTENANCE ── -->
-        <div class="bg-white rounded-2xl overflow-hidden border border-gray-100">
-          <div class="flex">
-            <div class="w-1.5 flex-shrink-0 rounded-l-2xl bg-voy-stone"></div>
-            <div class="flex-1 p-4">
-              <div class="flex items-start justify-between gap-3 mb-3">
-                <div class="min-w-0">
-                  <div class="flex flex-wrap items-center gap-1.5 mb-1.5">
-                    <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full uppercase tracking-wide" style="color: #19301E; background: #EAF0EE;">Maintenance</span>
-                    <span class="text-[10px] text-gray-400">18+ months · results achieved</span>
-                  </div>
-                  <p class="text-sm font-bold text-gray-900">Sustain your results</p>
-                  <p class="text-xs text-gray-400 mt-0.5 leading-relaxed">Reduced dosage with supporting products for patients who've reached their treatment goals.</p>
-                </div>
-                <div class="text-right flex-shrink-0">
-                  <p class="text-sm font-bold text-gray-900">From £69<span class="text-xs font-normal text-gray-400">/yr</span></p>
-                </div>
+        <!-- ── MAINTENANCE ────────────────────────────── -->
+        <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden">
+          <div class="p-5">
+
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-xs font-bold text-gray-400 uppercase tracking-widest">Maintenance</span>
+              <span class="text-[11px] text-gray-400">18+ months · results achieved</span>
+            </div>
+
+            <div class="flex items-start justify-between gap-4 mb-4">
+              <div class="min-w-0">
+                <p class="text-xl font-bold text-gray-900 leading-snug mb-1">Sustain your results</p>
+                <p class="text-sm text-gray-400 leading-relaxed">Reduced dosage for patients who've reached their goals and want to hold onto what they've regained.</p>
               </div>
-              <div class="flex items-center justify-between pt-3 border-t border-gray-100">
-                <div class="flex flex-wrap gap-x-1 gap-y-1 text-[11px] text-gray-500">
-                  <span>Reduced DHT dosage</span>
-                  <span class="text-gray-300">·</span>
-                  <span>Shampoo + Vitamins</span>
-                </div>
-                <button onclick="openPlanSheet('Maintenance', 'From £69 / year')" class="text-xs font-semibold text-voy-green hover:opacity-70 transition-opacity whitespace-nowrap ml-3">Switch →</button>
+              <div class="text-right flex-shrink-0">
+                <p class="text-2xl font-bold text-gray-900">£69</p>
+                <p class="text-xs text-gray-400 whitespace-nowrap">per year</p>
               </div>
             </div>
+
+            <div class="space-y-2.5 mb-5">
+              <div class="flex items-center gap-2.5">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-300 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                <span class="text-sm text-gray-700">Reduced-dose DHT blocker</span>
+              </div>
+              <div class="flex items-center gap-2.5">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-300 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                <span class="text-sm text-gray-700">Caffeine Shampoo + Hair Vitamins</span>
+              </div>
+              <div class="flex items-center gap-2.5">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-300 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                <span class="text-sm text-gray-700">Annual clinical review</span>
+              </div>
+            </div>
+
+            <button onclick="openPlanSheet('Maintenance', '£69 / year')" class="w-full bg-voy-green text-white rounded-xl py-3.5 text-sm font-semibold hover:opacity-90 transition-opacity">
+              Switch to Maintenance
+            </button>
+
           </div>
         </div>
 
-        <!-- ── STARTER PACK ── -->
-        <div class="bg-white rounded-2xl overflow-hidden border border-gray-100">
-          <div class="flex">
-            <div class="w-1.5 flex-shrink-0 rounded-l-2xl bg-gray-200"></div>
-            <div class="flex-1 p-4">
-              <div class="flex items-start justify-between gap-3 mb-3">
-                <div class="min-w-0">
-                  <div class="flex flex-wrap items-center gap-1.5 mb-1.5">
-                    <span class="text-[10px] font-semibold text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full uppercase tracking-wide">Starter</span>
-                    <span class="text-[10px] text-gray-400">Try first · lower commitment</span>
-                  </div>
-                  <p class="text-sm font-bold text-gray-900">Your first step</p>
-                  <p class="text-xs text-gray-400 mt-0.5 leading-relaxed">Minoxidil and Caffeine Shampoo at an accessible price — upgrade your plan whenever you're ready.</p>
-                </div>
-                <div class="text-right flex-shrink-0">
-                  <p class="text-sm font-bold text-gray-900">From £35<span class="text-xs font-normal text-gray-400">/mo</span></p>
-                </div>
+        <!-- ── STARTER ─────────────────────────────────── -->
+        <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden">
+          <div class="p-5">
+
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-xs font-bold text-gray-400 uppercase tracking-widest">Starter</span>
+              <span class="text-[11px] text-gray-400">Entry-level · lower commitment</span>
+            </div>
+
+            <div class="flex items-start justify-between gap-4 mb-4">
+              <div class="min-w-0">
+                <p class="text-xl font-bold text-gray-900 leading-snug mb-1">A lighter touch</p>
+                <p class="text-sm text-gray-400 leading-relaxed">Minoxidil-first approach at an accessible monthly price. Upgrade your plan any time.</p>
               </div>
-              <div class="flex items-center justify-between pt-3 border-t border-gray-100">
-                <div class="flex flex-wrap gap-x-1 gap-y-1 text-[11px] text-gray-500">
-                  <span>Minoxidil</span>
-                  <span class="text-gray-300">·</span>
-                  <span>Caffeine Shampoo</span>
-                </div>
-                <button onclick="openPlanSheet('Starter Pack', 'From £35 / month')" class="text-xs font-semibold text-gray-400 hover:text-gray-700 transition-colors whitespace-nowrap ml-3">Learn more →</button>
+              <div class="text-right flex-shrink-0">
+                <p class="text-2xl font-bold text-gray-900">£35</p>
+                <p class="text-xs text-gray-400 whitespace-nowrap">per month</p>
               </div>
             </div>
+
+            <div class="space-y-2.5 mb-5">
+              <div class="flex items-center gap-2.5">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-300 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                <span class="text-sm text-gray-700">Minoxidil 5%</span>
+              </div>
+              <div class="flex items-center gap-2.5">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-300 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                <span class="text-sm text-gray-700">Caffeine Shampoo</span>
+              </div>
+              <div class="flex items-center gap-2.5">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-300 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                <span class="text-sm text-gray-700">Initial clinician consultation</span>
+              </div>
+            </div>
+
+            <button onclick="openPlanSheet('Starter', '£35 / month')" class="w-full border border-gray-200 text-gray-700 rounded-xl py-3.5 text-sm font-semibold hover:bg-gray-50 transition-colors">
+              Switch to Starter
+            </button>
+
           </div>
         </div>
 
       </div>
 
-      <!-- Info note -->
+      <!-- Clinician review note -->
       <div class="px-5 md:px-8 mb-12">
-        <div class="flex items-start gap-3 bg-voy-light-stone rounded-2xl px-4 py-3.5">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-400 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-          <p class="text-xs text-gray-500 leading-relaxed">Switching plans requires a short clinician review to make sure the new programme is right for you. Your current plan continues until the change is confirmed — usually within 2 working days.</p>
-        </div>
+        <p class="text-xs text-gray-400 text-center leading-relaxed">All plan changes are reviewed by your clinician before taking effect. Your current plan continues until the switch is confirmed.</p>
       </div>
 
-    </div><!-- /max-w-2xl -->
+    </div>
   </main>
 
   <!-- Mobile bottom nav -->
@@ -236,7 +283,7 @@
 
 </div>
 
-<!-- Plan switch sheet overlay -->
+<!-- Overlay -->
 <div id="plan-sheet-overlay" class="fixed inset-0 bg-black/40 z-30 hidden" onclick="closePlanSheet()"></div>
 
 <!-- Plan switch sheet -->
@@ -245,14 +292,18 @@
 
   <!-- Request state -->
   <div id="plan-sheet-request">
-    <p class="text-xs text-gray-400 uppercase tracking-widest mb-1">Thinking of switching?</p>
-    <p id="plan-sheet-name" class="text-xl font-bold text-gray-900 mb-0.5"></p>
-    <p id="plan-sheet-price" class="text-sm text-gray-500 mb-5"></p>
+    <p class="text-xs text-gray-400 uppercase tracking-widest mb-1">Switch to</p>
+    <p id="plan-sheet-name" class="text-2xl font-bold text-gray-900 mb-0.5"></p>
+    <p id="plan-sheet-price" class="text-sm text-gray-400 mb-5"></p>
     <div class="bg-voy-green-pale rounded-2xl px-4 py-3.5 mb-6">
-      <p class="text-xs text-voy-green font-medium leading-relaxed">Your clinician will review the request and confirm suitability before any changes take effect. Your current plan continues in the meantime.</p>
+      <p class="text-sm text-voy-green font-medium leading-relaxed">Your clinician will review this request and confirm it's right for you before any change takes effect. Your current plan continues in the meantime.</p>
     </div>
-    <button onclick="confirmPlanRequest()" class="w-full bg-voy-green text-white font-semibold rounded-full py-4 text-sm hover:opacity-90 transition-opacity mb-3">Request plan change</button>
-    <button onclick="closePlanSheet()" class="w-full text-gray-400 text-sm py-2 hover:text-gray-600 transition-colors">Cancel</button>
+    <button onclick="confirmPlanRequest()" class="w-full bg-voy-green text-white font-semibold rounded-xl py-4 text-sm hover:opacity-90 transition-opacity mb-3">
+      Request plan change
+    </button>
+    <button onclick="closePlanSheet()" class="w-full text-gray-400 text-sm py-2 hover:text-gray-600 transition-colors">
+      Cancel
+    </button>
   </div>
 
   <!-- Success state -->
@@ -261,8 +312,10 @@
       <svg class="w-7 h-7 text-voy-green" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
     </div>
     <h2 class="text-xl font-bold text-gray-900 mb-1">Request sent</h2>
-    <p class="text-sm text-gray-400 mb-6 leading-relaxed max-w-xs mx-auto">Your clinician will be in touch within 2 working days to discuss your plan change.</p>
-    <a href="index.html" class="block w-full bg-voy-green text-white font-semibold rounded-full py-4 text-sm hover:opacity-90 transition-opacity">Back to plan</a>
+    <p class="text-sm text-gray-400 mb-6 leading-relaxed max-w-xs mx-auto">Your clinician will be in touch within 2 working days to confirm your plan change.</p>
+    <a href="index.html" class="block w-full bg-voy-green text-white font-semibold rounded-xl py-4 text-sm hover:opacity-90 transition-opacity">
+      Back to plan
+    </a>
   </div>
 </div>
 
@@ -274,16 +327,12 @@
     document.getElementById('plan-sheet-success').classList.add('hidden');
     document.getElementById('plan-sheet-success').classList.remove('flex');
     document.getElementById('plan-sheet-overlay').classList.remove('hidden');
-    setTimeout(() => {
-      document.getElementById('plan-sheet').classList.add('open');
-    }, 10);
+    setTimeout(() => document.getElementById('plan-sheet').classList.add('open'), 10);
   }
 
   function closePlanSheet() {
     document.getElementById('plan-sheet').classList.remove('open');
-    setTimeout(() => {
-      document.getElementById('plan-sheet-overlay').classList.add('hidden');
-    }, 300);
+    setTimeout(() => document.getElementById('plan-sheet-overlay').classList.add('hidden'), 300);
   }
 
   function confirmPlanRequest() {
