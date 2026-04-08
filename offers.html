@@ -172,14 +172,18 @@
           </div>
         </div>
 
-        <!-- Takes effect notice -->
-        <div class="flex items-center gap-3 bg-voy-light-stone rounded-2xl px-4 py-3.5 shadow-sm mb-6" id="switch-notice">
-          <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center flex-shrink-0">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-          </div>
-          <div>
-            <p class="text-xs font-semibold text-gray-900">Changes take effect on your next billing date</p>
-            <p class="text-xs text-gray-400 mt-0.5">Your current annual cycle runs until <strong>21 Aug 2025</strong>. Nothing changes before then.</p>
+        <!-- ── FINANCIAL IMPACT BOX (hidden when on current plan) ── -->
+        <div id="impact-box" class="hidden mb-6">
+          <div class="bg-voy-green rounded-2xl p-5 text-white">
+            <div class="flex items-start gap-2.5 mb-4">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-white/60 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              <p class="text-sm text-white/80 leading-relaxed" id="impact-renew"></p>
+            </div>
+            <div class="h-px bg-white/10 mb-4"></div>
+            <div class="flex items-start gap-2.5">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-white/60 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              <p class="text-sm text-white/80 leading-relaxed" id="impact-credit"></p>
+            </div>
           </div>
         </div>
 
@@ -288,6 +292,22 @@
   <script>
     const CURRENT_PLAN = 'annual';
 
+    // --- Credit calculation ---
+    const ANNUAL_PRICE = 125;
+    const RENEWAL_DATE = new Date('2026-08-21');
+    const CYCLE_START  = new Date('2025-08-21');
+    const CYCLE_DAYS   = (RENEWAL_DATE - CYCLE_START) / 86400000;
+    const today        = new Date();
+    const daysLeft     = Math.max(0, Math.ceil((RENEWAL_DATE - today) / 86400000));
+    const unusedCredit = ((daysLeft / CYCLE_DAYS) * ANNUAL_PRICE).toFixed(2);
+
+    function fmtDate(d) {
+      return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+    }
+    function fmtShort(d) {
+      return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+    }
+
     const plans = {
       annual: {
         label: 'Annual',
@@ -351,6 +371,33 @@
       const btn = document.getElementById('cta-btn');
       btn.textContent = plans[selected].cta;
       btn.disabled = (selected === CURRENT_PLAN);
+
+      // Show / hide financial impact box
+      const box = document.getElementById('impact-box');
+      if (selected === CURRENT_PLAN) {
+        box.classList.add('hidden');
+      } else {
+        box.classList.remove('hidden');
+
+        const renewLine = document.getElementById('impact-renew');
+        const creditLine = document.getElementById('impact-credit');
+
+        if (selected === 'monthly') {
+          renewLine.innerHTML =
+            `Your subscription will switch to <strong>monthly billing</strong> on <strong>${fmtShort(RENEWAL_DATE)}</strong>. ` +
+            `You will be charged <strong>£13.50/month</strong> from that date.`;
+          creditLine.innerHTML =
+            `Your current annual plan has <strong>£${unusedCredit} of unused value</strong> (${daysLeft} days remaining). ` +
+            `This credit will be applied towards your future monthly bills.`;
+        } else if (selected === 'quarterly') {
+          renewLine.innerHTML =
+            `Your subscription will switch to <strong>quarterly billing</strong> on <strong>${fmtShort(RENEWAL_DATE)}</strong>. ` +
+            `You will be charged <strong>£36.00 every 3 months</strong> from that date.`;
+          creditLine.innerHTML =
+            `Your current annual plan has <strong>£${unusedCredit} of unused value</strong> (${daysLeft} days remaining). ` +
+            `This credit will be applied towards your future quarterly bills.`;
+        }
+      }
     }
 
     function showConfirm() {
