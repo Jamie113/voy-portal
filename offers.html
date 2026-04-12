@@ -9,7 +9,7 @@
     .offer-card { transition: box-shadow 0.15s, border-color 0.15s; cursor: pointer; }
     .offer-card.selected { border-color: #19301E; box-shadow: 0 0 0 2px #19301E; }
     .offer-card:not(.selected) { border-color: transparent; }
-    .hidden-panel { display: none; }
+    .hidden-panel { display: none !important; }
   </style>
 </head>
 <body class="font-sans text-gray-900 antialiased bg-voy-bg">
@@ -147,10 +147,10 @@
   </div>
 
   <!-- ── CONFIRM OVERLAY ──────────────────────────── -->
-  <div id="confirm-panel" class="fixed inset-0 md:left-56 z-40 flex flex-col justify-end hidden-panel">
+  <div id="confirm-panel" x-data="{ open: false }" x-show="open" style="display:none" class="fixed inset-0 md:left-56 z-40 flex flex-col justify-end">
 
     <!-- Scrim -->
-    <div class="absolute inset-0 bg-gray-900/40 backdrop-blur-sm" @click="hideConfirm()"></div>
+    <div class="absolute inset-0 bg-gray-900/40 backdrop-blur-sm" @click="open = false"></div>
 
     <!-- Sheet -->
     <div class="relative bg-white rounded-t-3xl px-5 pt-6 pb-10 md:max-w-2xl md:mx-auto md:w-full">
@@ -339,13 +339,12 @@
         document.getElementById('confirm-saving').className = 'text-xs font-semibold text-voy-green';
       }
 
-      const panel = document.getElementById('confirm-panel');
-      panel.classList.remove('hidden-panel');
+      document.getElementById('confirm-panel')._x_dataStack[0].open = true;
       document.body.style.overflow = 'hidden';
     }
 
     function hideConfirm() {
-      document.getElementById('confirm-panel').classList.add('hidden-panel');
+      document.getElementById('confirm-panel')._x_dataStack[0].open = false;
       document.body.style.overflow = '';
     }
   </script>
