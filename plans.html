@@ -53,8 +53,8 @@
 
     /* ── Active orb pulse (current plan) ─────── */
     @keyframes orbPulse {
-      0%, 100% { box-shadow: 0 6px 18px rgba(25,48,30,0.25); }
-      50%       { box-shadow: 0 6px 24px rgba(25,48,30,0.45); }
+      0%, 100% { box-shadow: 0 4px 14px rgba(25,48,30,0.18); }
+      50%       { box-shadow: 0 4px 20px rgba(25,48,30,0.32); }
     }
     .plan-orb.active.is-current {
       animation: orbPulse 2.5s ease-in-out infinite;
@@ -100,9 +100,9 @@
 
           <!-- Starter -->
           <button class="plan-orb rounded-2xl overflow-hidden w-[100px]" data-plan="starter" onclick="selectPlan('starter')">
-            <div class="h-[72px] relative flex items-center justify-center" style="background: linear-gradient(135deg, #374151, #6B7280);">
-              <div class="absolute -top-5 -right-5 w-16 h-16 rounded-full bg-white/10"></div>
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-white relative z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+            <div class="h-[72px] relative flex items-center justify-center" style="background: #f3f4f6;">
+              <div class="absolute -top-5 -right-5 w-16 h-16 rounded-full" style="background: rgba(55,65,81,0.07)"></div>
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 relative z-10" style="color:#4B5563" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
               </svg>
             </div>
@@ -114,9 +114,9 @@
 
           <!-- Prevention -->
           <button class="plan-orb rounded-2xl overflow-hidden w-[100px]" data-plan="prevention" onclick="selectPlan('prevention')">
-            <div class="h-[72px] relative flex items-center justify-center" style="background: linear-gradient(135deg, #1a5c52, #3d9e8e);">
-              <div class="absolute -top-5 -right-5 w-16 h-16 rounded-full bg-white/10"></div>
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-white relative z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+            <div class="h-[72px] relative flex items-center justify-center" style="background: #e6f5f2;">
+              <div class="absolute -top-5 -right-5 w-16 h-16 rounded-full" style="background: rgba(26,92,82,0.08)"></div>
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 relative z-10" style="color:#1a5c52" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
               </svg>
             </div>
@@ -128,9 +128,9 @@
 
           <!-- Advanced (current) -->
           <button class="plan-orb active is-current rounded-2xl overflow-hidden w-[100px]" data-plan="advanced" onclick="selectPlan('advanced')">
-            <div class="h-[72px] relative flex items-center justify-center" style="background: linear-gradient(135deg, #19301E, #2d5a37);">
-              <div class="absolute -top-5 -right-5 w-16 h-16 rounded-full opacity-[0.12]" style="background: #C5E040;"></div>
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-white relative z-10" viewBox="0 0 20 20" fill="currentColor">
+            <div class="h-[72px] relative flex items-center justify-center" style="background: #EAF0EE;">
+              <div class="absolute -top-5 -right-5 w-16 h-16 rounded-full" style="background: rgba(25,48,30,0.08)"></div>
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 relative z-10" style="color:#19301E" viewBox="0 0 20 20" fill="currentColor">
                 <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
               </svg>
             </div>
@@ -142,9 +142,9 @@
 
           <!-- Maintenance -->
           <button class="plan-orb rounded-2xl overflow-hidden w-[100px]" data-plan="maintenance" onclick="selectPlan('maintenance')">
-            <div class="h-[72px] relative flex items-center justify-center" style="background: linear-gradient(135deg, #6b4c28, #c49a5a);">
-              <div class="absolute -top-5 -right-5 w-16 h-16 rounded-full bg-white/10"></div>
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-white relative z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+            <div class="h-[72px] relative flex items-center justify-center" style="background: #fdf4e7;">
+              <div class="absolute -top-5 -right-5 w-16 h-16 rounded-full" style="background: rgba(107,76,40,0.07)"></div>
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 relative z-10" style="color:#6b4c28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M5 3l14 9-14 9V3z"/>
               </svg>
             </div>
@@ -456,7 +456,7 @@
     ).join('');
 
     const monthlyHTML = plan.monthly
-      ? `<p class="text-sm mt-1" style="color:rgba(255,255,255,0.45)">${plan.monthly}</p>`
+      ? `<p style="font-size:12px;font-weight:600;color:${plan.colorFrom};margin-top:5px;">${plan.monthly}</p>`
       : '';
 
     const ctaHTML = isCurrent
@@ -466,41 +466,39 @@
          </div>`
       : `<button onclick="Alpine.store('sheet').open('plan-switch', { key: '${plan.key}' })"
                 class="btn-primary w-full text-white font-bold rounded-2xl py-4 text-base tracking-tight hover:opacity-90 transition-opacity"
-                style="background:${plan.colorFrom}">
+                style="background:#19301E">
            Switch to ${plan.label} →
          </button>`;
 
     return `
-      <div class="rounded-3xl overflow-hidden bg-white shadow-sm" style="border: 2px solid ${isCurrent ? plan.colorFrom : '#f0f0f0'};">
+      <div class="rounded-3xl overflow-hidden shadow-sm" style="background:white; border: 1.5px solid ${isCurrent ? plan.colorFrom : '#ece9e0'};">
 
-        <!-- Hero zone -->
-        <div class="relative overflow-hidden flex flex-col justify-between"
-             style="background: linear-gradient(145deg, ${plan.colorFrom} 0%, ${plan.colorTo} 100%); min-height: 220px; padding: 24px;">
+        <!-- Header zone: light tinted background, dark text -->
+        <div class="relative" style="background: ${plan.accentLight}; padding: 24px 24px 22px;">
 
-          <!-- Decorative blobs -->
-          <div class="absolute" style="width:200px;height:200px;border-radius:9999px;background:rgba(255,255,255,0.06);top:-60px;right:-60px;"></div>
-          <div class="absolute" style="width:120px;height:120px;border-radius:9999px;background:rgba(255,255,255,0.04);bottom:-30px;left:-30px;"></div>
+          <!-- Decorative blob -->
+          <div class="absolute" style="width:160px;height:160px;border-radius:9999px;background:rgba(0,0,0,0.03);top:-40px;right:-40px;pointer-events:none;"></div>
 
-          <!-- Top row: stage + current badge -->
-          <div class="flex items-center justify-between relative">
-            <span style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.5);letter-spacing:0.1em;text-transform:uppercase;background:rgba(255,255,255,0.1);padding:3px 10px;border-radius:6px;">${plan.stage}</span>
-            ${isCurrent ? `<span style="font-size:10px;font-weight:600;color:rgba(255,255,255,0.9);background:rgba(255,255,255,0.2);padding:4px 12px;border-radius:9999px;">Current plan</span>` : ''}
+          <!-- Top row: stage badge + current pill -->
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
+            <span style="font-size:10px;font-weight:700;color:${plan.colorFrom};letter-spacing:0.1em;text-transform:uppercase;background:rgba(0,0,0,0.06);padding:3px 10px;border-radius:6px;">${plan.stage}</span>
+            ${isCurrent ? `<span style="font-size:10px;font-weight:600;color:white;background:${plan.colorFrom};padding:4px 12px;border-radius:9999px;">Current plan</span>` : ''}
           </div>
 
-          <!-- Bottom: headline + price -->
-          <div class="relative">
-            <p style="font-size:26px;font-weight:800;color:white;line-height:1.15;margin-bottom:6px;letter-spacing:-0.02em;">${plan.pitch}</p>
-            <p style="font-size:13px;color:rgba(255,255,255,0.55);line-height:1.5;margin-bottom:20px;">${plan.tagline}</p>
-            <div style="display:flex;align-items:flex-end;gap:6px;">
-              <p style="font-size:44px;font-weight:800;color:white;line-height:1;letter-spacing:-0.03em;">${plan.price}</p>
-              <p style="font-size:14px;color:rgba(255,255,255,0.45);margin-bottom:6px;">${plan.period}</p>
-            </div>
-            ${monthlyHTML}
+          <!-- Pitch + tagline -->
+          <p style="font-size:24px;font-weight:800;color:#111827;line-height:1.2;margin-bottom:8px;letter-spacing:-0.02em;">${plan.pitch}</p>
+          <p style="font-size:13px;color:#6b7280;line-height:1.6;margin-bottom:22px;">${plan.tagline}</p>
+
+          <!-- Price -->
+          <div style="display:flex;align-items:flex-end;gap:6px;">
+            <p style="font-size:42px;font-weight:800;color:#111827;line-height:1;letter-spacing:-0.03em;">${plan.price}</p>
+            <p style="font-size:14px;color:#9ca3af;margin-bottom:5px;">${plan.period}</p>
           </div>
+          ${monthlyHTML}
         </div>
 
         <!-- Body: features + CTA -->
-        <div style="padding: 20px 24px 24px;">
+        <div style="padding: 20px 24px 24px; background: white;">
           <p style="font-size:10px;font-weight:700;color:#9ca3af;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:14px;">What's included</p>
           <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:24px;">
             ${featuresHTML}
