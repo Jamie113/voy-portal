@@ -81,7 +81,7 @@ export function aiGuideData() {
       this.$nextTick(() => {
         setTimeout(() => this.aiMessage(chatQuestions[0].message, () => {
           setTimeout(() => this.nextQuestion(), 400)
-        }), 500)
+        }), 650)
       })
     },
 
