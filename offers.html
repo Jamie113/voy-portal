@@ -3,18 +3,91 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>voy · Your billing</title>
+  <title>voy · Billing plan</title>
   <link rel="stylesheet" href="/src/css/app.css" />
   <style>
-    .offer-card { transition: border-color 0.15s, box-shadow 0.15s; cursor: pointer; }
-    .offer-card.selected { border-color: #19301E; box-shadow: 0 0 0 2px #19301E; }
-    .offer-card:not(.selected) { border-color: #e5e7eb; }
+    /* ── Card interactions ─────────────────────── */
+    .offer-card {
+      cursor: pointer;
+      transition:
+        transform      0.25s cubic-bezier(0.34, 1.4, 0.64, 1),
+        border-color   0.15s ease,
+        box-shadow     0.15s ease,
+        opacity        0.2s  ease;
+    }
+    .offer-card.selected {
+      transform: scale(1.015);
+      border-color: #19301E;
+      box-shadow: 0 0 0 2px #19301E, 0 4px 20px rgba(25,48,30,0.10);
+    }
+    .cards-have-selection .offer-card:not(.selected) {
+      opacity: 0.55;
+      transform: scale(0.99);
+    }
+
+    /* ── Radio fill pop ────────────────────────── */
+    @keyframes radioPop {
+      0%   { transform: scale(0);   opacity: 0; }
+      60%  { transform: scale(1.4); opacity: 1; }
+      100% { transform: scale(1);   opacity: 1; }
+    }
+    .radio-dot { animation: radioPop 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+
+    /* ── Chip slide-in ─────────────────────────── */
+    @keyframes chipIn {
+      from { transform: translateX(-8px) scale(0.9); opacity: 0; }
+      to   { transform: translateX(0)    scale(1);   opacity: 1; }
+    }
+    .chip-animate { animation: chipIn 0.22s ease-out forwards; }
+
+    /* ── Note reveal ───────────────────────────── */
+    @keyframes noteReveal {
+      from { transform: translateY(-8px); opacity: 0; }
+      to   { transform: translateY(0);    opacity: 1; }
+    }
+    .note-reveal { animation: noteReveal 0.28s ease-out forwards; }
+
+    /* ── CTA context fade-up ───────────────────── */
+    @keyframes ctaContextIn {
+      from { transform: translateY(5px); opacity: 0; }
+      to   { transform: translateY(0);   opacity: 1; }
+    }
+    .cta-context-in { animation: ctaContextIn 0.2s ease-out forwards; }
+
+    /* ── Confirm sheet spring ──────────────────── */
+    .sheet-body {
+      transform: translateY(100%);
+      transition: transform 0.38s cubic-bezier(0.34, 1.15, 0.64, 1);
+    }
+    .sheet-open .sheet-body { transform: translateY(0); }
+
+    /* ── Success icon pop ──────────────────────── */
+    @keyframes iconPop {
+      0%   { transform: scale(0);   }
+      60%  { transform: scale(1.2); }
+      100% { transform: scale(1);   }
+    }
+    .icon-pop { animation: iconPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+
+    /* ── Button ripple ─────────────────────────── */
+    .btn-primary {
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-primary::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255,255,255,0.15);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .btn-primary:active::after { opacity: 1; }
   </style>
 </head>
 <body x-data class="font-sans text-gray-900 antialiased bg-voy-bg">
 
   <div class="min-h-screen flex">
-
     <div id="sidebar-slot"></div>
 
     <main class="flex-1 min-w-0 md:ml-56 min-h-screen">
@@ -23,183 +96,196 @@
         <span class="text-2xl font-bold tracking-tight text-gray-900">voy</span>
       </header>
 
-      <div class="px-5 md:px-8 max-w-2xl mx-auto mt-2 md:mt-10 mb-6">
-        <a href="index.html" class="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-gray-700 mb-4 transition-colors">
+      <!-- ── Page header ───────────────────────── -->
+      <div class="px-5 md:px-8 max-w-2xl mx-auto mt-2 md:mt-10 mb-8">
+        <a href="index.html" class="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-gray-700 mb-5 transition-colors">
           <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg>
           Manage plan
         </a>
-        <h1 class="text-3xl md:text-4xl font-bold text-gray-900">Your billing</h1>
-        <p class="text-sm text-gray-400 mt-1.5">Choose how often you're billed. Your treatment stays exactly the same.</p>
+        <h1 class="text-3xl md:text-4xl font-bold text-gray-900 leading-tight">Pay less,<br>stay on track</h1>
+        <p class="text-sm text-gray-400 mt-2">Same treatment, same deliveries — only the payment frequency changes.</p>
       </div>
 
-      <div class="px-5 md:px-8 max-w-2xl mx-auto pb-40">
+      <div class="px-5 md:px-8 max-w-2xl mx-auto pb-44">
 
-        <!-- ── PLAN SELECTORS ─────────────────────────── -->
-        <div class="space-y-3 mb-8">
+        <!-- ── Section label ─────────────────── -->
+        <p class="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-3">How often do you want to pay?</p>
+
+        <!-- ── Plan selector cards ───────────── -->
+        <div class="space-y-3 mb-6" id="card-group">
 
           <!-- 12 months -->
-          <div class="offer-card bg-white rounded-2xl border-2 p-4 selected" data-plan="twelve" @click="selectPlan($el)">
-            <div class="flex items-center gap-4">
-              <div class="w-5 h-5 rounded-full border-2 border-voy-green bg-voy-green flex items-center justify-center flex-shrink-0" id="radio-twelve">
-                <div class="w-2 h-2 rounded-full bg-white"></div>
+          <div class="offer-card bg-white rounded-2xl border-2 p-5 selected" data-plan="twelve" @click="selectPlan($el)">
+            <div class="flex items-start gap-4">
+              <div class="w-5 h-5 rounded-full border-2 border-voy-green bg-voy-green flex items-center justify-center flex-shrink-0 mt-0.5" id="radio-twelve">
+                <div class="w-2 h-2 rounded-full bg-white radio-dot"></div>
               </div>
               <div class="flex-1 min-w-0">
-                <div class="flex items-center gap-2">
-                  <p class="text-sm font-semibold text-gray-900">12 months</p>
-                  <span class="text-[10px] font-semibold text-voy-green bg-voy-green-pale px-2 py-0.5 rounded-full">Current plan</span>
+                <div class="flex items-center flex-wrap gap-2 mb-1.5">
+                  <p class="text-sm font-bold text-gray-900">12 months</p>
+                  <span class="text-[10px] font-semibold text-voy-green bg-voy-green-pale px-2 py-0.5 rounded-full leading-none py-1">Current plan</span>
                 </div>
-                <p class="text-xs text-gray-400 mt-0.5">Billed as £125 once a year</p>
-              </div>
-              <div class="text-right flex-shrink-0">
-                <p class="text-base font-bold text-gray-900">£10.42<span class="text-xs font-normal text-gray-400">/mo</span></p>
+                <p class="text-xl font-bold text-gray-900 leading-none">
+                  £125
+                  <span class="text-sm font-normal text-gray-400 ml-1">billed once a year</span>
+                </p>
+                <div class="flex items-center gap-2 mt-2">
+                  <p class="text-sm text-gray-400">£10.42/mo</p>
+                  <span class="text-[11px] font-semibold text-voy-green bg-voy-green-pale px-2 py-0.5 rounded-full leading-none py-1">✓ Best value · save £19/yr</span>
+                </div>
               </div>
             </div>
           </div>
 
           <!-- 6 months -->
-          <div class="offer-card bg-white rounded-2xl border-2 p-4" data-plan="six" @click="selectPlan($el)">
-            <div class="flex items-center gap-4">
-              <div class="w-5 h-5 rounded-full border-2 border-gray-300 flex items-center justify-center flex-shrink-0" id="radio-six"></div>
+          <div class="offer-card bg-white rounded-2xl border-2 p-5" data-plan="six" @click="selectPlan($el)">
+            <div class="flex items-start gap-4">
+              <div class="w-5 h-5 rounded-full border-2 border-gray-300 flex items-center justify-center flex-shrink-0 mt-0.5" id="radio-six"></div>
               <div class="flex-1 min-w-0">
-                <p class="text-sm font-semibold text-gray-900">6 months</p>
-                <p class="text-xs text-gray-400 mt-0.5">Billed as £68 every 6 months</p>
-              </div>
-              <div class="text-right flex-shrink-0">
-                <p class="text-base font-bold text-gray-900">£11.33<span class="text-xs font-normal text-gray-400">/mo</span></p>
+                <p class="text-sm font-bold text-gray-900 mb-1.5">6 months</p>
+                <p class="text-xl font-bold text-gray-900 leading-none">
+                  £68
+                  <span class="text-sm font-normal text-gray-400 ml-1">billed every 6 months</span>
+                </p>
+                <div class="flex items-center gap-2 mt-2">
+                  <p class="text-sm text-gray-400">£11.33/mo</p>
+                  <span class="hidden text-[11px] font-medium text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full leading-none py-1" id="chip-six">+£11/yr vs 12 months</span>
+                </div>
               </div>
             </div>
           </div>
 
           <!-- 3 months -->
-          <div class="offer-card bg-white rounded-2xl border-2 p-4" data-plan="three" @click="selectPlan($el)">
-            <div class="flex items-center gap-4">
-              <div class="w-5 h-5 rounded-full border-2 border-gray-300 flex items-center justify-center flex-shrink-0" id="radio-three"></div>
+          <div class="offer-card bg-white rounded-2xl border-2 p-5" data-plan="three" @click="selectPlan($el)">
+            <div class="flex items-start gap-4">
+              <div class="w-5 h-5 rounded-full border-2 border-gray-300 flex items-center justify-center flex-shrink-0 mt-0.5" id="radio-three"></div>
               <div class="flex-1 min-w-0">
-                <p class="text-sm font-semibold text-gray-900">3 months</p>
-                <p class="text-xs text-gray-400 mt-0.5">Billed as £36 every 3 months</p>
-              </div>
-              <div class="text-right flex-shrink-0">
-                <p class="text-base font-bold text-gray-900">£12<span class="text-xs font-normal text-gray-400">/mo</span></p>
+                <p class="text-sm font-bold text-gray-900 mb-1.5">3 months</p>
+                <p class="text-xl font-bold text-gray-900 leading-none">
+                  £36
+                  <span class="text-sm font-normal text-gray-400 ml-1">billed every 3 months</span>
+                </p>
+                <div class="flex items-center gap-2 mt-2">
+                  <p class="text-sm text-gray-400">£12/mo</p>
+                  <span class="hidden text-[11px] font-medium text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full leading-none py-1" id="chip-three">+£19/yr vs 12 months</span>
+                </div>
               </div>
             </div>
           </div>
 
         </div>
 
-        <!-- ── PRICING BREAKDOWN ──────────────────────── -->
-        <div class="bg-white rounded-2xl overflow-hidden mb-8">
-
-          <div class="px-5 pt-5 pb-4 border-b border-gray-100">
-            <h2 class="text-sm font-bold text-gray-900">How billing affects your price</h2>
-            <p class="text-xs text-gray-400 mt-0.5">Same treatment, same deliveries — only the frequency of payment changes.</p>
+        <!-- ── Credit carry-over note ─────────── -->
+        <!-- Only visible when switching away from current plan -->
+        <div id="credit-note" class="hidden bg-white rounded-2xl overflow-hidden">
+          <div class="px-4 py-3 border-b border-gray-100 flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-voy-green flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <p class="text-xs font-semibold text-gray-700">Your unused credit carries over automatically</p>
           </div>
-
-          <!-- 12 months row — highlighted -->
-          <div class="px-5 py-4 border-b border-gray-100" style="background: #EAF0EE;">
-            <div class="flex items-center justify-between mb-2">
-              <div class="flex items-center gap-2">
-                <p class="text-sm font-bold text-voy-green">12 months</p>
-                <span class="text-[10px] font-bold text-voy-green bg-voy-green/10 px-2 py-0.5 rounded-full uppercase tracking-wide">Best value</span>
-              </div>
-              <p class="text-sm font-bold text-voy-green">£125 / year</p>
+          <div class="grid grid-cols-3 divide-x divide-gray-100">
+            <div class="px-4 py-4">
+              <p class="text-[11px] text-gray-400 mb-1 uppercase tracking-wide font-medium">Unused value</p>
+              <p class="text-base font-bold text-gray-900" id="credit-unused"></p>
             </div>
-            <div class="flex items-center justify-between text-xs text-voy-green/70">
-              <span>£10.42 per month</span>
-              <span class="font-semibold">Save £19 vs 6 months</span>
+            <div class="px-4 py-4">
+              <p class="text-[11px] text-gray-400 mb-1 uppercase tracking-wide font-medium">Applied from</p>
+              <p class="text-base font-bold text-gray-900" id="credit-date"></p>
             </div>
-          </div>
-
-          <!-- 6 months row -->
-          <div class="px-5 py-4 border-b border-gray-100">
-            <div class="flex items-center justify-between mb-2">
-              <p class="text-sm font-medium text-gray-700">6 months</p>
-              <p class="text-sm font-semibold text-gray-700">£136 / year</p>
+            <div class="px-4 py-4">
+              <p class="text-[11px] text-gray-400 mb-1 uppercase tracking-wide font-medium">First charge</p>
+              <p class="text-base font-bold text-gray-900" id="credit-charge"></p>
             </div>
-            <div class="flex items-center justify-between text-xs text-gray-400">
-              <span>£68 every 6 months · £11.33/mo</span>
-              <span>£11 more than 12 months</span>
-            </div>
-          </div>
-
-          <!-- 3 months row -->
-          <div class="px-5 py-4">
-            <div class="flex items-center justify-between mb-2">
-              <p class="text-sm font-medium text-gray-700">3 months</p>
-              <p class="text-sm font-semibold text-gray-700">£144 / year</p>
-            </div>
-            <div class="flex items-center justify-between text-xs text-gray-400">
-              <span>£36 per quarter · £12/mo</span>
-              <span>£19 more than 12 months</span>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- Credit note (shown when switching away from annual) -->
-        <div id="credit-note" class="hidden bg-white rounded-2xl px-5 py-4 mb-8">
-          <div class="flex items-start gap-3">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-400 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-            <p class="text-xs text-gray-500 leading-relaxed" id="credit-note-text"></p>
           </div>
         </div>
 
       </div>
-
     </main>
   </div>
 
-  <!-- Sticky CTA -->
-  <div class="fixed bottom-0 left-0 right-0 md:left-56 bg-voy-bg border-t border-gray-100 px-5 md:px-8 pt-3 pb-8 z-30">
+  <!-- ── Sticky CTA ─────────────────────────────── -->
+  <div class="fixed bottom-0 left-0 right-0 md:left-56 bg-voy-bg/95 backdrop-blur-sm border-t border-gray-100 px-5 md:px-8 pt-3 pb-8 z-30">
     <div class="max-w-2xl mx-auto">
-      <button @click="showConfirm()" class="w-full bg-voy-green text-white rounded-full py-3.5 text-sm font-semibold hover:bg-opacity-90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed" id="cta-btn" disabled>
+      <div id="cta-context" class="hidden text-center mb-2">
+        <p class="text-xs text-gray-400" id="cta-context-text"></p>
+      </div>
+      <button @click="showConfirm()" class="btn-primary w-full bg-voy-green text-white rounded-full py-3.5 text-sm font-semibold hover:bg-opacity-90 transition-all disabled:opacity-35 disabled:cursor-not-allowed" id="cta-btn" disabled>
         You're on the best plan
       </button>
     </div>
   </div>
 
-  <!-- ── CONFIRM SHEET ──────────────────────────── -->
-  <div id="confirm-panel" x-data="{ open: false }" x-show="open" style="display:none" class="fixed inset-0 md:left-56 z-40 flex flex-col justify-end">
-    <div class="absolute inset-0 bg-gray-900/40 backdrop-blur-sm" @click="open = false"></div>
-    <div class="relative bg-white rounded-t-3xl px-5 pt-6 pb-10 md:max-w-2xl md:mx-auto md:w-full">
-      <div class="w-10 h-1 bg-gray-200 rounded-full mx-auto mb-5"></div>
+  <!-- ── Confirm sheet ──────────────────────────── -->
+  <div id="confirm-panel" x-data="{ open: false }" x-show="open" style="display:none"
+       class="fixed inset-0 md:left-56 z-40 flex flex-col justify-end"
+       :class="open ? 'sheet-open' : ''">
+    <div class="absolute inset-0 bg-gray-900/40 backdrop-blur-sm transition-opacity" @click="hideConfirm()"></div>
+    <div class="sheet-body relative bg-white rounded-t-3xl px-5 pt-6 pb-10 md:max-w-2xl md:mx-auto md:w-full">
+      <div class="w-10 h-1 bg-gray-200 rounded-full mx-auto mb-6"></div>
 
-      <h2 class="text-xl font-bold text-gray-900 mb-1">Confirm your switch</h2>
-      <p class="text-sm text-gray-400 mb-5">Review the changes before we update your billing.</p>
+      <!-- Icon -->
+      <div class="w-14 h-14 rounded-2xl bg-voy-green-pale flex items-center justify-center mx-auto mb-4">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-voy-green" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+        </svg>
+      </div>
 
-      <div class="bg-gray-50 rounded-2xl p-4 mb-5">
-        <p class="text-xs text-gray-400 uppercase tracking-wide font-medium mb-3">What's changing</p>
-        <div class="space-y-3">
-          <div class="flex items-center justify-between">
-            <p class="text-sm text-gray-500">Billing frequency</p>
-            <div class="flex items-center gap-2">
-              <span class="text-sm text-gray-400 line-through">12 months</span>
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
-              <span class="text-sm font-semibold text-gray-900" id="confirm-frequency"></span>
-            </div>
+      <h2 class="text-xl font-bold text-gray-900 text-center mb-1" id="confirm-headline"></h2>
+      <p class="text-sm text-gray-400 text-center mb-6" id="confirm-subhead"></p>
+
+      <!-- What's changing -->
+      <div class="bg-gray-50 rounded-2xl divide-y divide-gray-100 mb-4">
+        <div class="flex items-center justify-between px-4 py-3.5">
+          <p class="text-sm text-gray-500">Billing frequency</p>
+          <div class="flex items-center gap-2">
+            <span class="text-sm text-gray-400 line-through">12 months</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+            <span class="text-sm font-semibold text-gray-900" id="confirm-frequency"></span>
           </div>
-          <div class="flex items-center justify-between">
-            <p class="text-sm text-gray-500">Amount charged</p>
-            <div class="flex items-center gap-2">
-              <span class="text-sm text-gray-400 line-through">£125/year</span>
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
-              <span class="text-sm font-semibold text-gray-900" id="confirm-price"></span>
-            </div>
+        </div>
+        <div class="flex items-center justify-between px-4 py-3.5">
+          <p class="text-sm text-gray-500">Charge amount</p>
+          <div class="flex items-center gap-2">
+            <span class="text-sm text-gray-400 line-through">£125/year</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+            <span class="text-sm font-semibold text-gray-900" id="confirm-price"></span>
           </div>
-          <div class="flex items-center justify-between">
-            <p class="text-sm text-gray-500">Takes effect from</p>
-            <span class="text-sm font-semibold text-gray-900" id="confirm-date"></span>
-          </div>
+        </div>
+        <div class="flex items-center justify-between px-4 py-3.5">
+          <p class="text-sm text-gray-500">Takes effect from</p>
+          <span class="text-sm font-semibold text-gray-900" id="confirm-date"></span>
         </div>
       </div>
 
       <p class="text-xs text-gray-400 text-center mb-5" id="confirm-commitment"></p>
 
-      <button class="w-full bg-voy-green text-white rounded-full py-3.5 text-sm font-semibold hover:bg-opacity-90 transition-colors mb-3">
+      <button id="confirm-submit-btn" onclick="handleConfirm()" class="btn-primary w-full bg-voy-green text-white rounded-full py-3.5 text-sm font-semibold hover:bg-opacity-90 transition-colors mb-3">
         Confirm switch
       </button>
-      <button @click="hideConfirm()" class="w-full text-sm text-gray-400 py-2 hover:text-gray-600 transition-colors">
+      <button onclick="hideConfirm()" class="w-full text-sm text-gray-400 py-2 hover:text-gray-600 transition-colors">
         Go back
       </button>
+    </div>
+  </div>
+
+  <!-- ── Success sheet ───────────────────────────── -->
+  <div id="success-panel" x-data="{ open: false }" x-show="open" style="display:none"
+       class="fixed inset-0 md:left-56 z-50 flex flex-col justify-end"
+       :class="open ? 'sheet-open' : ''">
+    <div class="absolute inset-0 bg-gray-900/50 backdrop-blur-sm"></div>
+    <div class="sheet-body relative bg-white rounded-t-3xl px-5 pt-8 pb-14 md:max-w-2xl md:mx-auto md:w-full text-center">
+      <div class="w-10 h-1 bg-gray-200 rounded-full mx-auto mb-8"></div>
+      <div id="success-icon" class="w-16 h-16 rounded-full bg-voy-green flex items-center justify-center mx-auto mb-5" style="transform: scale(0)">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+        </svg>
+      </div>
+      <h2 class="text-2xl font-bold text-gray-900 mb-2">You're all set</h2>
+      <p class="text-sm text-gray-400 mb-8 max-w-xs mx-auto" id="success-message"></p>
+      <a href="index.html" class="btn-primary inline-block bg-voy-green text-white rounded-full px-8 py-3.5 text-sm font-semibold hover:bg-opacity-90 transition-colors">
+        Back to dashboard
+      </a>
     </div>
   </div>
 
@@ -208,13 +294,13 @@
   <script>
     const CURRENT_PLAN = 'twelve';
 
-    const ANNUAL_PRICE = 125;
-    const RENEWAL_DATE = new Date('2026-08-21');
-    const CYCLE_START  = new Date('2025-08-21');
-    const CYCLE_DAYS   = (RENEWAL_DATE - CYCLE_START) / 86400000;
-    const today        = new Date();
-    const daysLeft     = Math.max(0, Math.ceil((RENEWAL_DATE - today) / 86400000));
-    const unusedCredit = ((daysLeft / CYCLE_DAYS) * ANNUAL_PRICE).toFixed(2);
+    const ANNUAL_PRICE  = 125;
+    const RENEWAL_DATE  = new Date('2026-08-21');
+    const CYCLE_START   = new Date('2025-08-21');
+    const CYCLE_DAYS    = (RENEWAL_DATE - CYCLE_START) / 86400000;
+    const today         = new Date();
+    const daysLeft      = Math.max(0, Math.ceil((RENEWAL_DATE - today) / 86400000));
+    const unusedCredit  = ((daysLeft / CYCLE_DAYS) * ANNUAL_PRICE).toFixed(2);
 
     function fmtShort(d) {
       return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
@@ -222,74 +308,151 @@
 
     const plans = {
       twelve: {
+        confirmHeadline:  "You're already on the best plan",
+        confirmSubhead:   'No changes needed — keep enjoying the saving.',
         confirmFrequency: '12 months',
-        confirmPrice: '£125/year',
-        date: '—',
-        commitment: '',
-        cta: "You're on the best plan",
+        confirmPrice:     '£125/year',
+        date:             '—',
+        commitment:       '',
+        cta:              "You're on the best plan",
+        ctaContext:       null,
+        firstCharge:      null,
       },
       six: {
+        confirmHeadline:  'Switching to 6-month billing',
+        confirmSubhead:   `Next charge: £68 on ${fmtShort(RENEWAL_DATE)}`,
         confirmFrequency: 'Every 6 months',
-        confirmPrice: '£68/6 months',
-        date: fmtShort(RENEWAL_DATE),
-        commitment: 'Your current cycle runs until 21 Aug 2026. 6-month billing starts from that date.',
-        cta: 'Switch to 6-month billing',
+        confirmPrice:     '£68 / 6 months',
+        date:             fmtShort(RENEWAL_DATE),
+        commitment:       'Your 12-month cycle runs until 21 Aug 2026. New billing starts from that date.',
+        cta:              'Switch to 6-month billing',
+        ctaContext:       `£68 charged on 21 Aug 2026`,
+        firstCharge:      '£68.00',
+        successMsg:       "You're now on 6-month billing. Your unused credit carries over automatically.",
       },
       three: {
+        confirmHeadline:  'Switching to quarterly billing',
+        confirmSubhead:   `Next charge: £36 on ${fmtShort(RENEWAL_DATE)}`,
         confirmFrequency: 'Every 3 months',
-        confirmPrice: '£36/quarter',
-        date: fmtShort(RENEWAL_DATE),
-        commitment: 'Your current cycle runs until 21 Aug 2026. Quarterly billing starts from that date.',
-        cta: 'Switch to quarterly billing',
+        confirmPrice:     '£36 / 3 months',
+        date:             fmtShort(RENEWAL_DATE),
+        commitment:       'Your 12-month cycle runs until 21 Aug 2026. New billing starts from that date.',
+        cta:              'Switch to quarterly billing',
+        ctaContext:       `£36 charged on 21 Aug 2026`,
+        firstCharge:      '£36.00',
+        successMsg:       "You're now on quarterly billing. Your unused credit carries over automatically.",
       },
     };
 
     let selected = CURRENT_PLAN;
 
     function selectPlan(el) {
+      // Swap selected card
       document.querySelectorAll('.offer-card').forEach(c => c.classList.remove('selected'));
-      document.querySelectorAll('[id^="radio-"]').forEach(r => {
-        r.className = 'w-5 h-5 rounded-full border-2 border-gray-300 flex items-center justify-center flex-shrink-0';
-        r.innerHTML = '';
-      });
-
       el.classList.add('selected');
       selected = el.dataset.plan;
 
-      const radio = document.getElementById('radio-' + selected);
-      radio.className = 'w-5 h-5 rounded-full border-2 border-voy-green bg-voy-green flex items-center justify-center flex-shrink-0';
-      radio.innerHTML = '<div class="w-2 h-2 rounded-full bg-white"></div>';
+      // Dim siblings
+      document.getElementById('card-group').classList.add('cards-have-selection');
 
+      // Radio indicators
+      ['twelve', 'six', 'three'].forEach(key => {
+        const r = document.getElementById('radio-' + key);
+        if (key === selected) {
+          r.className = 'w-5 h-5 rounded-full border-2 border-voy-green bg-voy-green flex items-center justify-center flex-shrink-0 mt-0.5';
+          r.innerHTML = '<div class="w-2 h-2 rounded-full bg-white radio-dot"></div>';
+        } else {
+          r.className = 'w-5 h-5 rounded-full border-2 border-gray-300 flex items-center justify-center flex-shrink-0 mt-0.5';
+          r.innerHTML = '';
+        }
+      });
+
+      // Cost chips — show only for non-12mo cards when they're selected
+      ['six', 'three'].forEach(key => {
+        const chip = document.getElementById('chip-' + key);
+        if (key === selected) {
+          chip.classList.remove('hidden');
+          chip.classList.remove('chip-animate');
+          void chip.offsetWidth; // force reflow to re-trigger animation
+          chip.classList.add('chip-animate');
+        } else {
+          chip.classList.add('hidden');
+        }
+      });
+
+      // CTA button
       const btn = document.getElementById('cta-btn');
-      btn.textContent = plans[selected].cta;
-      btn.disabled = (selected === CURRENT_PLAN);
+      const plan = plans[selected];
+      btn.textContent = plan.cta;
+      btn.disabled    = (selected === CURRENT_PLAN);
 
+      // CTA context line (price + date above button)
+      const ctxWrap = document.getElementById('cta-context');
+      const ctxText = document.getElementById('cta-context-text');
+      if (plan.ctaContext) {
+        ctxText.textContent = plan.ctaContext;
+        ctxWrap.classList.remove('hidden', 'cta-context-in');
+        void ctxWrap.offsetWidth;
+        ctxWrap.classList.add('cta-context-in');
+      } else {
+        ctxWrap.classList.add('hidden');
+      }
+
+      // Credit carry-over note
       const note = document.getElementById('credit-note');
       if (selected === CURRENT_PLAN) {
         note.classList.add('hidden');
       } else {
-        const billingLabel = selected === 'six' ? '6-month' : 'quarterly';
-        const chargeAmt    = selected === 'six' ? '£68.00 every 6 months' : '£36.00 every 3 months';
-        note.classList.remove('hidden');
-        document.getElementById('credit-note-text').innerHTML =
-          `You have <strong>£${unusedCredit} of unused value</strong> remaining on your current 12-month plan (${daysLeft} days). ` +
-          `This credit will carry over and be applied to your ${billingLabel} bills from <strong>${fmtShort(RENEWAL_DATE)}</strong>, when you'd be charged <strong>${chargeAmt}</strong>.`;
+        document.getElementById('credit-unused').textContent = `£${unusedCredit}`;
+        document.getElementById('credit-date').textContent   = fmtShort(RENEWAL_DATE);
+        document.getElementById('credit-charge').textContent = plan.firstCharge;
+        note.classList.remove('hidden', 'note-reveal');
+        void note.offsetWidth;
+        note.classList.add('note-reveal');
       }
     }
 
     function showConfirm() {
       const plan = plans[selected];
-      document.getElementById('confirm-frequency').textContent  = plan.confirmFrequency;
-      document.getElementById('confirm-price').textContent      = plan.confirmPrice;
-      document.getElementById('confirm-date').textContent       = plan.date;
+      document.getElementById('confirm-headline').textContent  = plan.confirmHeadline;
+      document.getElementById('confirm-subhead').textContent   = plan.confirmSubhead;
+      document.getElementById('confirm-frequency').textContent = plan.confirmFrequency;
+      document.getElementById('confirm-price').textContent     = plan.confirmPrice;
+      document.getElementById('confirm-date').textContent      = plan.date;
       document.getElementById('confirm-commitment').textContent = plan.commitment;
-      document.getElementById('confirm-panel')._x_dataStack[0].open = true;
+
+      const panel = document.getElementById('confirm-panel');
+      panel._x_dataStack[0].open = true;
       document.body.style.overflow = 'hidden';
     }
 
     function hideConfirm() {
       document.getElementById('confirm-panel')._x_dataStack[0].open = false;
       document.body.style.overflow = '';
+    }
+
+    function handleConfirm() {
+      const btn = document.getElementById('confirm-submit-btn');
+      btn.textContent = 'Saving…';
+      btn.disabled    = true;
+
+      // Simulate API call
+      setTimeout(() => {
+        hideConfirm();
+        setTimeout(() => {
+          const plan    = plans[selected];
+          const success = document.getElementById('success-panel');
+          document.getElementById('success-message').textContent = plan.successMsg || 'Your billing has been updated.';
+          success._x_dataStack[0].open = true;
+          document.body.style.overflow = 'hidden';
+          // Animate icon after sheet appears
+          setTimeout(() => {
+            const icon = document.getElementById('success-icon');
+            icon.classList.add('icon-pop');
+            icon.style.transform = 'scale(1)';
+          }, 200);
+        }, 320);
+      }, 900);
     }
   </script>
 
