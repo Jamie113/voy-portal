@@ -3,13 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>voy · Switch &amp; save</title>
+  <title>voy · Your billing</title>
   <link rel="stylesheet" href="/src/css/app.css" />
   <style>
-    .offer-card { transition: box-shadow 0.15s, border-color 0.15s; cursor: pointer; }
+    .offer-card { transition: border-color 0.15s, box-shadow 0.15s; cursor: pointer; }
     .offer-card.selected { border-color: #19301E; box-shadow: 0 0 0 2px #19301E; }
-    .offer-card:not(.selected) { border-color: transparent; }
-    .hidden-panel { display: none !important; }
+    .offer-card:not(.selected) { border-color: #e5e7eb; }
   </style>
 </head>
 <body x-data class="font-sans text-gray-900 antialiased bg-voy-bg">
@@ -18,10 +17,8 @@
 
     <div id="sidebar-slot"></div>
 
-    <!-- Main content -->
     <main class="flex-1 min-w-0 md:ml-56 min-h-screen">
 
-      <!-- Mobile top nav -->
       <header class="md:hidden flex items-center justify-center px-5 pt-12 pb-4">
         <span class="text-2xl font-bold tracking-tight text-gray-900">voy</span>
       </header>
@@ -31,105 +28,119 @@
           <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg>
           Manage plan
         </a>
-        <h1 class="text-3xl md:text-4xl font-bold text-gray-900">Switch &amp; save</h1>
-        <p class="text-sm text-gray-400 mt-1.5">The longer you commit, the more you save. Switch any time before your next billing date.</p>
+        <h1 class="text-3xl md:text-4xl font-bold text-gray-900">Your billing</h1>
+        <p class="text-sm text-gray-400 mt-1.5">Choose how often you're billed. Your treatment stays exactly the same.</p>
       </div>
 
       <div class="px-5 md:px-8 max-w-2xl mx-auto pb-40">
 
-        <!-- Current plan callout -->
-        <div class="flex items-center gap-3 bg-voy-green-pale rounded-2xl px-4 py-3 mb-6">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-voy-green flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-          <p class="text-xs text-voy-green font-medium">You're on our <strong>best value plan</strong> — saving £37/year compared to monthly billing.</p>
-        </div>
+        <!-- ── PLAN SELECTORS ─────────────────────────── -->
+        <div class="space-y-3 mb-8">
 
-        <!-- ── OFFER CARDS ──────────────────────────── -->
-
-        <!-- Annual (current) -->
-        <div class="offer-card bg-voy-light-stone rounded-2xl p-5 shadow-sm mb-3 border-2 selected" data-plan="annual" @click="selectPlan($el)">
-          <div class="flex items-start justify-between gap-3 mb-3">
-            <div class="min-w-0">
-              <div class="flex flex-wrap items-center gap-1.5 mb-1">
-                <p class="text-base font-bold text-gray-900">Annual</p>
-                <span class="text-xs font-medium text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full whitespace-nowrap">Current plan</span>
-                <span class="text-xs font-semibold text-voy-green bg-voy-weight px-2 py-0.5 rounded-md whitespace-nowrap">Best value</span>
+          <!-- Annual -->
+          <div class="offer-card bg-white rounded-2xl border-2 p-4 selected" data-plan="annual" @click="selectPlan($el)">
+            <div class="flex items-center gap-4">
+              <div class="w-5 h-5 rounded-full border-2 border-voy-green bg-voy-green flex items-center justify-center flex-shrink-0" id="radio-annual">
+                <div class="w-2 h-2 rounded-full bg-white"></div>
               </div>
-              <p class="text-xs text-gray-400">Billed as £125 once a year</p>
-            </div>
-            <div class="text-right flex-shrink-0">
-              <p class="text-xl font-bold text-voy-green">£10.42<span class="text-sm font-normal text-gray-400">/mo</span></p>
-              <p class="text-xs text-voy-green font-medium">£125/year · Save £37</p>
-            </div>
-          </div>
-          <div class="flex items-center gap-2 pt-3 border-t border-gray-100">
-            <div class="w-4 h-4 rounded-full border-2 border-voy-green bg-voy-green flex items-center justify-center flex-shrink-0" id="radio-annual">
-              <div class="w-1.5 h-1.5 rounded-full bg-white"></div>
-            </div>
-            <p class="text-xs text-gray-600 font-medium">12-month commitment · Best price per delivery</p>
-          </div>
-        </div>
-
-        <!-- Every 3 months -->
-        <div class="offer-card bg-voy-light-stone rounded-2xl p-5 shadow-sm mb-3 border-2" data-plan="quarterly" @click="selectPlan($el)">
-          <div class="flex items-start justify-between mb-3">
-            <div>
-              <div class="flex items-center gap-2 mb-1">
-                <p class="text-base font-bold text-gray-900">Every 3 months</p>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center gap-2">
+                  <p class="text-sm font-semibold text-gray-900">Annual</p>
+                  <span class="text-[10px] font-semibold text-voy-green bg-voy-green-pale px-2 py-0.5 rounded-full">Current plan</span>
+                </div>
+                <p class="text-xs text-gray-400 mt-0.5">Billed as £125 once a year</p>
               </div>
-              <p class="text-xs text-gray-400">Billed as £36 every 3 months</p>
-            </div>
-            <div class="text-right">
-              <p class="text-xl font-bold text-gray-900">£12<span class="text-sm font-normal text-gray-400">/mo</span></p>
-              <p class="text-xs text-gray-400">£144/year</p>
-            </div>
-          </div>
-          <div class="flex items-center gap-2 pt-3 border-t border-gray-100">
-            <div class="w-4 h-4 rounded-full border-2 border-gray-300 flex items-center justify-center flex-shrink-0" id="radio-quarterly">
-            </div>
-            <p class="text-xs text-gray-400">3-month commitment · Cancel at end of cycle</p>
-          </div>
-        </div>
-
-        <!-- Monthly -->
-        <div class="offer-card bg-voy-light-stone rounded-2xl p-5 shadow-sm mb-6 border-2" data-plan="monthly" @click="selectPlan($el)">
-          <div class="flex items-start justify-between mb-3">
-            <div>
-              <div class="flex items-center gap-2 mb-1">
-                <p class="text-base font-bold text-gray-900">Monthly</p>
+              <div class="text-right flex-shrink-0">
+                <p class="text-base font-bold text-gray-900">£10.42<span class="text-xs font-normal text-gray-400">/mo</span></p>
               </div>
-              <p class="text-xs text-gray-400">Cancel or change any time</p>
-            </div>
-            <div class="text-right">
-              <p class="text-xl font-bold text-gray-900">£13.50<span class="text-sm font-normal text-gray-400">/mo</span></p>
-              <p class="text-xs text-gray-400">£162/year</p>
             </div>
           </div>
-          <div class="flex items-center gap-2 pt-3 border-t border-gray-100">
-            <div class="w-4 h-4 rounded-full border-2 border-gray-300 flex items-center justify-center flex-shrink-0" id="radio-monthly">
+
+          <!-- Every 3 months -->
+          <div class="offer-card bg-white rounded-2xl border-2 p-4" data-plan="quarterly" @click="selectPlan($el)">
+            <div class="flex items-center gap-4">
+              <div class="w-5 h-5 rounded-full border-2 border-gray-300 flex items-center justify-center flex-shrink-0" id="radio-quarterly"></div>
+              <div class="flex-1 min-w-0">
+                <p class="text-sm font-semibold text-gray-900">Every 3 months</p>
+                <p class="text-xs text-gray-400 mt-0.5">Billed as £36 every quarter</p>
+              </div>
+              <div class="text-right flex-shrink-0">
+                <p class="text-base font-bold text-gray-900">£12<span class="text-xs font-normal text-gray-400">/mo</span></p>
+              </div>
             </div>
-            <p class="text-xs text-gray-400">No minimum commitment · Most flexible</p>
           </div>
+
+          <!-- Monthly -->
+          <div class="offer-card bg-white rounded-2xl border-2 p-4" data-plan="monthly" @click="selectPlan($el)">
+            <div class="flex items-center gap-4">
+              <div class="w-5 h-5 rounded-full border-2 border-gray-300 flex items-center justify-center flex-shrink-0" id="radio-monthly"></div>
+              <div class="flex-1 min-w-0">
+                <p class="text-sm font-semibold text-gray-900">Monthly</p>
+                <p class="text-xs text-gray-400 mt-0.5">Cancel or change any time</p>
+              </div>
+              <div class="text-right flex-shrink-0">
+                <p class="text-base font-bold text-gray-900">£13.50<span class="text-xs font-normal text-gray-400">/mo</span></p>
+              </div>
+            </div>
+          </div>
+
         </div>
 
-        <!-- ── FINANCIAL IMPACT BOX (hidden when on current plan) ── -->
-        <div id="impact-box" class="hidden mb-6">
-          <div class="bg-voy-green rounded-2xl p-5 text-white">
-            <div class="flex items-start gap-2.5 mb-4">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-white/60 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-              <p class="text-sm text-white/80 leading-relaxed" id="impact-renew"></p>
+        <!-- ── PRICING BREAKDOWN ──────────────────────── -->
+        <div class="bg-white rounded-2xl overflow-hidden mb-8">
+
+          <div class="px-5 pt-5 pb-4 border-b border-gray-100">
+            <h2 class="text-sm font-bold text-gray-900">How billing affects your price</h2>
+            <p class="text-xs text-gray-400 mt-0.5">Same treatment, same deliveries — only the frequency of payment changes.</p>
+          </div>
+
+          <!-- Annual row — highlighted -->
+          <div class="px-5 py-4 border-b border-gray-100" style="background: #EAF0EE;">
+            <div class="flex items-center justify-between mb-2">
+              <div class="flex items-center gap-2">
+                <p class="text-sm font-bold text-voy-green">Annual</p>
+                <span class="text-[10px] font-bold text-voy-green bg-voy-green/10 px-2 py-0.5 rounded-full uppercase tracking-wide">Best value</span>
+              </div>
+              <p class="text-sm font-bold text-voy-green">£125 / year</p>
             </div>
-            <div class="h-px bg-white/10 mb-4"></div>
-            <div class="flex items-start gap-2.5">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-white/60 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-              <p class="text-sm text-white/80 leading-relaxed" id="impact-credit"></p>
+            <div class="flex items-center justify-between text-xs text-voy-green/70">
+              <span>£10.42 per month</span>
+              <span class="font-semibold">Save £37 vs monthly</span>
             </div>
           </div>
+
+          <!-- Quarterly row -->
+          <div class="px-5 py-4 border-b border-gray-100">
+            <div class="flex items-center justify-between mb-2">
+              <p class="text-sm font-medium text-gray-700">Every 3 months</p>
+              <p class="text-sm font-semibold text-gray-700">£144 / year</p>
+            </div>
+            <div class="flex items-center justify-between text-xs text-gray-400">
+              <span>£36 per quarter · £12/mo</span>
+              <span>£19 more than annual</span>
+            </div>
+          </div>
+
+          <!-- Monthly row -->
+          <div class="px-5 py-4">
+            <div class="flex items-center justify-between mb-2">
+              <p class="text-sm font-medium text-gray-700">Monthly</p>
+              <p class="text-sm font-semibold text-gray-700">£162 / year</p>
+            </div>
+            <div class="flex items-center justify-between text-xs text-gray-400">
+              <span>£13.50 per month</span>
+              <span>£37 more than annual</span>
+            </div>
+          </div>
+
         </div>
 
-        <!-- Trust signal -->
-        <div class="flex items-start gap-3 mb-8">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-voy-green flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
-          <p class="text-xs text-gray-500">Your treatment and deliveries stay exactly the same — only the billing frequency changes.</p>
+        <!-- Credit note (shown when switching away from annual) -->
+        <div id="credit-note" class="hidden bg-white rounded-2xl px-5 py-4 mb-8">
+          <div class="flex items-start gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-400 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <p class="text-xs text-gray-500 leading-relaxed" id="credit-note-text"></p>
+          </div>
         </div>
 
       </div>
@@ -141,38 +152,29 @@
   <div class="fixed bottom-0 left-0 right-0 md:left-56 bg-voy-bg border-t border-gray-100 px-5 md:px-8 pt-3 pb-8 z-30">
     <div class="max-w-2xl mx-auto">
       <button @click="showConfirm()" class="w-full bg-voy-green text-white rounded-full py-3.5 text-sm font-semibold hover:bg-opacity-90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed" id="cta-btn" disabled>
-        You're already on the best plan
+        You're on the best plan
       </button>
     </div>
   </div>
 
-  <!-- ── CONFIRM OVERLAY ──────────────────────────── -->
+  <!-- ── CONFIRM SHEET ──────────────────────────── -->
   <div id="confirm-panel" x-data="{ open: false }" x-show="open" style="display:none" class="fixed inset-0 md:left-56 z-40 flex flex-col justify-end">
-
-    <!-- Scrim -->
     <div class="absolute inset-0 bg-gray-900/40 backdrop-blur-sm" @click="open = false"></div>
-
-    <!-- Sheet -->
     <div class="relative bg-white rounded-t-3xl px-5 pt-6 pb-10 md:max-w-2xl md:mx-auto md:w-full">
-
-      <!-- Handle -->
-      <div class="w-10 h-1 bg-gray-200 rounded-full mx-auto mb-6"></div>
+      <div class="w-10 h-1 bg-gray-200 rounded-full mx-auto mb-5"></div>
 
       <h2 class="text-xl font-bold text-gray-900 mb-1">Confirm your switch</h2>
-      <p class="text-sm text-gray-400 mb-6">Review the changes before we update your plan.</p>
+      <p class="text-sm text-gray-400 mb-5">Review the changes before we update your billing.</p>
 
-      <!-- Change summary -->
       <div class="bg-gray-50 rounded-2xl p-4 mb-5">
-        <div class="flex items-center justify-between mb-3">
-          <p class="text-xs text-gray-400 uppercase tracking-wide font-medium">What's changing</p>
-        </div>
+        <p class="text-xs text-gray-400 uppercase tracking-wide font-medium mb-3">What's changing</p>
         <div class="space-y-3">
           <div class="flex items-center justify-between">
             <p class="text-sm text-gray-500">Billing frequency</p>
             <div class="flex items-center gap-2">
               <span class="text-sm text-gray-400 line-through">Annual</span>
               <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
-              <span class="text-sm font-semibold text-gray-900" id="confirm-frequency">Monthly</span>
+              <span class="text-sm font-semibold text-gray-900" id="confirm-frequency"></span>
             </div>
           </div>
           <div class="flex items-center justify-between">
@@ -180,24 +182,17 @@
             <div class="flex items-center gap-2">
               <span class="text-sm text-gray-400 line-through">£125/year</span>
               <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
-              <span class="text-sm font-semibold text-gray-900" id="confirm-price">£13.50/mo</span>
+              <span class="text-sm font-semibold text-gray-900" id="confirm-price"></span>
             </div>
           </div>
           <div class="flex items-center justify-between">
             <p class="text-sm text-gray-500">Takes effect from</p>
-            <span class="text-sm font-semibold text-gray-900" id="confirm-date">21 Aug 2025</span>
+            <span class="text-sm font-semibold text-gray-900" id="confirm-date"></span>
           </div>
         </div>
       </div>
 
-      <!-- Cost notice -->
-      <div class="flex items-center gap-2 bg-amber-50 rounded-xl px-3.5 py-2.5 mb-6" id="confirm-notice">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-amber-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
-        <p class="text-xs font-semibold text-amber-700" id="confirm-saving">Switching to monthly will cost you £37 more per year</p>
-      </div>
-
-      <!-- Commitment notice -->
-      <p class="text-xs text-gray-400 text-center mb-5" id="confirm-commitment">Your current annual cycle continues until 21 Aug 2025. The new billing frequency starts from that date.</p>
+      <p class="text-xs text-gray-400 text-center mb-5" id="confirm-commitment"></p>
 
       <button class="w-full bg-voy-green text-white rounded-full py-3.5 text-sm font-semibold hover:bg-opacity-90 transition-colors mb-3">
         Confirm switch
@@ -213,7 +208,6 @@
   <script>
     const CURRENT_PLAN = 'annual';
 
-    // --- Credit calculation ---
     const ANNUAL_PRICE = 125;
     const RENEWAL_DATE = new Date('2026-08-21');
     const CYCLE_START  = new Date('2025-08-21');
@@ -222,123 +216,73 @@
     const daysLeft     = Math.max(0, Math.ceil((RENEWAL_DATE - today) / 86400000));
     const unusedCredit = ((daysLeft / CYCLE_DAYS) * ANNUAL_PRICE).toFixed(2);
 
-    function fmtDate(d) {
-      return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
-    }
     function fmtShort(d) {
       return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
     }
 
     const plans = {
       annual: {
-        label: 'Annual',
-        frequency: 'Monthly',       // what they'd switch TO from annual
-        price: '£13.50/mo',         // used in confirm "from" side — not applicable here
         confirmFrequency: 'Annual',
         confirmPrice: '£125/year',
-        notice: 'Switching to monthly will cost you £37 more per year',
-        noticeWarning: false,
-        date: '21 Aug 2025',
-        commitment: 'Your current annual cycle continues until 21 Aug 2025. Nothing changes before then.',
-        cta: "You're already on the best plan",
+        date: '—',
+        commitment: '',
+        cta: "You're on the best plan",
       },
       quarterly: {
-        label: 'Every 3 months',
         confirmFrequency: 'Every 3 months',
         confirmPrice: '£36/quarter',
-        notice: 'Switching to quarterly will cost you £19 more per year than annual',
-        noticeWarning: true,
-        date: '21 Aug 2025',
-        commitment: 'Your annual cycle continues until 21 Aug 2025. The new quarterly billing starts from that date.',
-        cta: 'Switch to quarterly — £36/quarter',
+        date: fmtShort(RENEWAL_DATE),
+        commitment: 'Your annual cycle runs until 21 Aug 2025. Quarterly billing starts from that date.',
+        cta: 'Switch to quarterly billing',
       },
       monthly: {
-        label: 'Monthly',
         confirmFrequency: 'Monthly',
         confirmPrice: '£13.50/mo',
-        notice: 'Switching to monthly will cost you £37 more per year',
-        noticeWarning: true,
-        date: '21 Aug 2025',
-        commitment: 'Your annual cycle continues until 21 Aug 2025. The new monthly billing starts from that date.',
-        cta: 'Switch to monthly — £13.50/mo',
+        date: fmtShort(RENEWAL_DATE),
+        commitment: 'Your annual cycle runs until 21 Aug 2025. Monthly billing starts from that date.',
+        cta: 'Switch to monthly billing',
       },
     };
 
     let selected = CURRENT_PLAN;
 
     function selectPlan(el) {
-      // Remove selected from all
       document.querySelectorAll('.offer-card').forEach(c => c.classList.remove('selected'));
       document.querySelectorAll('[id^="radio-"]').forEach(r => {
-        r.className = 'w-4 h-4 rounded-full border-2 border-gray-300 flex items-center justify-center flex-shrink-0';
+        r.className = 'w-5 h-5 rounded-full border-2 border-gray-300 flex items-center justify-center flex-shrink-0';
         r.innerHTML = '';
       });
 
-      // Select this one
       el.classList.add('selected');
       selected = el.dataset.plan;
+
       const radio = document.getElementById('radio-' + selected);
-      radio.className = 'w-4 h-4 rounded-full border-2 border-voy-green bg-voy-green flex items-center justify-center flex-shrink-0';
-      radio.innerHTML = '<div class="w-1.5 h-1.5 rounded-full bg-white"></div>';
+      radio.className = 'w-5 h-5 rounded-full border-2 border-voy-green bg-voy-green flex items-center justify-center flex-shrink-0';
+      radio.innerHTML = '<div class="w-2 h-2 rounded-full bg-white"></div>';
 
-      // Update price colour — green only for current (annual)
-      const priceEl = el.querySelector('.text-xl');
-      document.querySelectorAll('.offer-card .text-xl').forEach(p => {
-        p.className = 'text-xl font-bold text-gray-900';
-      });
-      if (selected === CURRENT_PLAN) priceEl.className = 'text-xl font-bold text-voy-green';
-
-      // Update CTA — disabled when on current plan
       const btn = document.getElementById('cta-btn');
       btn.textContent = plans[selected].cta;
       btn.disabled = (selected === CURRENT_PLAN);
 
-      // Show / hide financial impact box
-      const box = document.getElementById('impact-box');
+      const note = document.getElementById('credit-note');
       if (selected === CURRENT_PLAN) {
-        box.classList.add('hidden');
+        note.classList.add('hidden');
       } else {
-        box.classList.remove('hidden');
-
-        const renewLine = document.getElementById('impact-renew');
-        const creditLine = document.getElementById('impact-credit');
-
-        if (selected === 'monthly') {
-          renewLine.innerHTML =
-            `Your subscription will switch to <strong>monthly billing</strong> on <strong>${fmtShort(RENEWAL_DATE)}</strong>. ` +
-            `You will be charged <strong>£13.50/month</strong> from that date.`;
-          creditLine.innerHTML =
-            `Your current annual plan has <strong>£${unusedCredit} of unused value</strong> (${daysLeft} days remaining). ` +
-            `This credit will be applied towards your future monthly bills.`;
-        } else if (selected === 'quarterly') {
-          renewLine.innerHTML =
-            `Your subscription will switch to <strong>quarterly billing</strong> on <strong>${fmtShort(RENEWAL_DATE)}</strong>. ` +
-            `You will be charged <strong>£36.00 every 3 months</strong> from that date.`;
-          creditLine.innerHTML =
-            `Your current annual plan has <strong>£${unusedCredit} of unused value</strong> (${daysLeft} days remaining). ` +
-            `This credit will be applied towards your future quarterly bills.`;
-        }
+        note.classList.remove('hidden');
+        const billingLabel = selected === 'quarterly' ? 'quarterly' : 'monthly';
+        const chargeAmt    = selected === 'quarterly' ? '£36.00 every 3 months' : '£13.50/month';
+        document.getElementById('credit-note-text').innerHTML =
+          `You have <strong>£${unusedCredit} of unused value</strong> remaining on your current annual plan (${daysLeft} days). ` +
+          `This credit will carry over and be applied to your ${billingLabel} bills from <strong>${fmtShort(RENEWAL_DATE)}</strong>, when you'd be charged <strong>${chargeAmt}</strong>.`;
       }
     }
 
     function showConfirm() {
       const plan = plans[selected];
-      document.getElementById('confirm-frequency').textContent = plan.confirmFrequency;
-      document.getElementById('confirm-price').textContent = plan.confirmPrice;
-      document.getElementById('confirm-date').textContent = plan.date;
-      document.getElementById('confirm-saving').textContent = plan.notice;
+      document.getElementById('confirm-frequency').textContent  = plan.confirmFrequency;
+      document.getElementById('confirm-price').textContent      = plan.confirmPrice;
+      document.getElementById('confirm-date').textContent       = plan.date;
       document.getElementById('confirm-commitment').textContent = plan.commitment;
-
-      // Style notice amber (warning) or green (saving)
-      const noticeEl = document.getElementById('confirm-notice');
-      if (plan.noticeWarning) {
-        noticeEl.className = 'flex items-center gap-2 bg-amber-50 rounded-xl px-3.5 py-2.5 mb-6';
-        document.getElementById('confirm-saving').className = 'text-xs font-semibold text-amber-700';
-      } else {
-        noticeEl.className = 'flex items-center gap-2 bg-voy-green-pale rounded-xl px-3.5 py-2.5 mb-6';
-        document.getElementById('confirm-saving').className = 'text-xs font-semibold text-voy-green';
-      }
-
       document.getElementById('confirm-panel')._x_dataStack[0].open = true;
       document.body.style.overflow = 'hidden';
     }
@@ -349,6 +293,6 @@
     }
   </script>
 
-<script type="module" src="/src/js/app.js"></script>
+  <script type="module" src="/src/js/app.js"></script>
 </body>
 </html>
