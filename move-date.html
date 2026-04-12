@@ -4,51 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>voy · Move date</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            voy: {
-              green: '#19301E',
-              'green-light': '#9BD1C2',
-              'green-pale': '#EAF0EE',
-              stone: '#F4F1E7',
-              'light-stone': '#FCFBF8',
-              bg: '#F4F1E7',
-              hair: '#9BD1C2',
-              weight: '#FFA87C',
-              testosterone: '#B9F00A',
-              menopause: '#C6C2FF',
-            }
-          },
-          fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] }
-        }
-      }
-    }
-  </script>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/src/css/app.css" />
   <style>
-    body { background-color: #19301E; overflow-x: hidden; }
-
-    .day-btn {
-      transition: background 0.12s, color 0.12s;
-      width: 38px; height: 38px;
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 14px;
-      margin: 0 auto;
-    }
-    .day-btn.selected { background: #19301E; color: white; font-weight: 600; }
-    .day-btn.current-date {
-      border: 2px solid #cbd5e1;
-      color: #334155;
-    }
-    .day-btn.disabled { opacity: 0.25; pointer-events: none; }
-    .day-btn:not(.selected):not(.disabled):hover { background: #F4F1E7; }
-
+    body { background-color: #19301E; }
     /* modal slide-up on mobile */
     #modal {
       animation: slideUp 0.32s cubic-bezier(0.32, 0.72, 0, 1);
@@ -57,39 +15,39 @@
       from { transform: translateY(40px); opacity: 0; }
       to   { transform: translateY(0);   opacity: 1; }
     }
-
-    /* success sheet */
-    #success-sheet { transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1); transform: translateY(100%); }
-    #success-sheet.open { transform: translateY(0); }
+    .day-btn.current-date {
+      border: 2px solid #cbd5e1;
+      color: #334155;
+    }
   </style>
 </head>
 <body class="font-sans antialiased min-h-screen flex items-end md:items-center justify-center p-0 md:p-6">
 
   <!-- Backdrop (acts as dimmed background) -->
-  <div class="fixed inset-0 bg-voy-green/80 backdrop-blur-sm md:bg-gray-900/60" onclick="history.back()"></div>
+  <div class="fixed inset-0 bg-voy-green/80 backdrop-blur-sm md:bg-gray-900/60" @click="history.back()"></div>
 
   <!-- Modal card -->
-  <div id="modal" class="relative z-10 bg-white w-full md:max-w-sm md:rounded-3xl rounded-t-3xl overflow-hidden shadow-2xl">
+  <div id="modal" x-data="calendar" class="relative z-10 bg-white w-full md:max-w-sm md:rounded-3xl rounded-t-3xl overflow-hidden shadow-2xl">
 
     <!-- Header -->
     <div class="flex items-center justify-between px-5 pt-5 pb-4 border-b border-gray-100">
       <div class="w-8"></div><!-- spacer -->
-      <h1 class="text-xs font-bold tracking-[0.12em] uppercase text-gray-900" id="modal-title">Manage order</h1>
+      <h1 class="text-xs font-bold tracking-[0.12em] uppercase text-gray-900" x-text="modalTitle"></h1>
       <a href="index.html" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors text-gray-400 hover:text-gray-700">
         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
       </a>
     </div>
 
     <div class="px-5 pt-5 pb-2">
-      <p class="text-sm text-gray-500 text-center mb-5" id="modal-subtitle">Choose a date for your next order</p>
+      <p class="text-sm text-gray-500 text-center mb-5" x-text="modalSubtitle"></p>
 
       <!-- Month nav -->
       <div class="flex items-center justify-between mb-4">
-        <button onclick="prevMonth()" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors text-gray-400">
+        <button @click="prevMonth()" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors text-gray-400">
           <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
         </button>
-        <p class="text-sm font-bold tracking-wide uppercase text-gray-900" id="month-label"></p>
-        <button onclick="nextMonth()" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors text-gray-400">
+        <p class="text-sm font-bold tracking-wide uppercase text-gray-900" x-text="monthLabel"></p>
+        <button @click="nextMonth()" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors text-gray-400">
           <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
         </button>
       </div>
@@ -106,154 +64,69 @@
       </div>
 
       <!-- Day grid -->
-      <div class="grid grid-cols-7 gap-y-1 mb-5" id="day-grid"></div>
+      <div class="grid grid-cols-7 gap-y-1 mb-5">
+        <template x-for="(d, i) in days" :key="i">
+          <div>
+            <template x-if="d.empty"><div></div></template>
+            <template x-if="!d.empty">
+              <button
+                :class="d.classes"
+                :disabled="d.isDisabled"
+                @click="!d.isDisabled && selectDay(d.date)"
+                x-text="d.day"
+              ></button>
+            </template>
+          </div>
+        </template>
+      </div>
     </div>
 
     <!-- Summary card + CTA -->
     <div class="mx-4 mb-5 bg-gray-50 rounded-2xl px-4 py-4">
       <div class="flex items-center justify-between mb-1">
-        <span class="text-xs text-gray-400" id="order-label">Next order on</span>
-        <span class="text-xs font-semibold text-gray-700 bg-voy-stone px-2 py-0.5 rounded-full" id="current-date-display">18 Aug 2025</span>
+        <span class="text-xs text-gray-400" x-text="orderLabel"></span>
+        <span class="text-xs font-semibold text-gray-700 bg-voy-stone px-2 py-0.5 rounded-full" x-text="currentDateDisplay"></span>
       </div>
-      <div class="flex items-center justify-between" id="delivery-row">
+      <div class="flex items-center justify-between" x-show="!isBilling">
         <span class="text-xs text-gray-400">Estimated delivery on</span>
-        <span class="text-xs font-semibold text-gray-700" id="delivery-date-display">25 Aug 2025</span>
+        <span class="text-xs font-semibold text-gray-700" x-text="deliveryDateDisplay"></span>
       </div>
     </div>
 
     <div class="px-4 pb-8">
-      <button id="confirm-btn" onclick="confirmDate()" disabled
-        class="w-full bg-voy-green text-white rounded-full py-4 text-sm font-semibold transition-opacity disabled:opacity-30">
-        <span id="cta-label">Update order date</span>
-      </button>
+      <button
+        @click="confirm()"
+        :disabled="!confirmEnabled"
+        class="w-full bg-voy-green text-white rounded-full py-4 text-sm font-semibold transition-opacity disabled:opacity-30"
+        x-text="ctaLabel"
+      ></button>
     </div>
 
   </div>
 
   <!-- Success sheet (slides up over modal) -->
-  <div id="success-sheet" class="fixed inset-x-0 bottom-0 md:max-w-sm md:left-1/2 md:-translate-x-1/2 z-20 bg-white rounded-t-3xl px-5 pt-6 pb-10 text-center shadow-2xl">
+  <div
+    x-data
+    x-show="$store.sheet.isOpen('date-success')"
+    x-transition:enter="transition duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]"
+    x-transition:enter-start="translate-y-full"
+    x-transition:enter-end="translate-y-0"
+    x-transition:leave="transition duration-300"
+    x-transition:leave-start="translate-y-0"
+    x-transition:leave-end="translate-y-full"
+    style="display:none"
+    class="fixed inset-x-0 bottom-0 md:max-w-sm md:left-1/2 md:-translate-x-1/2 z-20 bg-white rounded-t-3xl px-5 pt-6 pb-10 text-center shadow-2xl"
+  >
     <div class="w-12 h-12 rounded-full bg-voy-green-pale flex items-center justify-center mx-auto mb-4">
       <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-voy-green" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
     </div>
     <h2 class="text-xl font-bold text-gray-900 mb-1">Date updated</h2>
-    <p class="text-sm text-gray-400 mb-6" id="success-msg"></p>
+    <p class="text-sm text-gray-400 mb-6" x-html="$store.sheet.data.msg || ''"></p>
     <a href="index.html" class="block w-full bg-voy-green text-white rounded-full py-3.5 text-sm font-semibold hover:opacity-90 transition-opacity">
       Back to plan
     </a>
   </div>
 
-<script>
-  const params = new URLSearchParams(window.location.search);
-  const type = params.get('type') || 'delivery';
-  const isBilling = type === 'billing';
-
-  // Customise copy for billing vs delivery
-  if (isBilling) {
-    document.getElementById('modal-title').textContent = 'Move billing date';
-    document.getElementById('modal-subtitle').textContent = 'Choose a new date for your next charge';
-    document.getElementById('order-label').textContent = 'Current billing date';
-    document.getElementById('delivery-row').classList.add('hidden');
-    document.getElementById('current-date-display').textContent = '18 Aug 2025';
-    document.getElementById('cta-label').textContent = 'Update billing date';
-  }
-
-  // Calendar
-  const today = new Date();
-  let viewYear = today.getFullYear();
-  let viewMonth = today.getMonth();
-  let selectedDate = null;
-
-  // "Current" date — the one we're moving from
-  const currentOrderDate = isBilling
-    ? new Date(today.getFullYear(), today.getMonth(), 18)
-    : new Date(today.getFullYear(), today.getMonth(), today.getDate() + 14);
-
-  const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-
-  function fmt(date, opts) {
-    return date.toLocaleDateString('en-GB', opts || { day: 'numeric', month: 'long', year: 'numeric' });
-  }
-
-  function renderCalendar() {
-    document.getElementById('month-label').textContent =
-      months[viewMonth].toUpperCase() + ' ' + viewYear;
-
-    const grid = document.getElementById('day-grid');
-    grid.innerHTML = '';
-
-    const firstDay = new Date(viewYear, viewMonth, 1);
-    let startOffset = firstDay.getDay() - 1;
-    if (startOffset < 0) startOffset = 6;
-
-    const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
-
-    // Empty offset cells
-    for (let i = 0; i < startOffset; i++) {
-      grid.appendChild(document.createElement('div'));
-    }
-
-    const minDate = new Date(today);
-    minDate.setDate(today.getDate() + 1);
-    const maxDate = new Date(today);
-    maxDate.setDate(today.getDate() + 60);
-
-    for (let d = 1; d <= daysInMonth; d++) {
-      const date = new Date(viewYear, viewMonth, d);
-      const btn = document.createElement('button');
-      btn.className = 'day-btn';
-      btn.textContent = d;
-
-      const isDisabled = date < minDate || date > maxDate;
-      const isSelected = selectedDate && date.toDateString() === selectedDate.toDateString();
-      const isCurrent = date.toDateString() === currentOrderDate.toDateString();
-
-      if (isDisabled) btn.classList.add('disabled');
-      if (isSelected)  btn.classList.add('selected');
-      else if (isCurrent) btn.classList.add('current-date');
-
-      btn.onclick = () => selectDay(date);
-      grid.appendChild(btn);
-    }
-  }
-
-  function selectDay(date) {
-    selectedDate = date;
-
-    // Update delivery estimate (4 days after order date) for delivery flow
-    if (!isBilling) {
-      const delivery = new Date(date);
-      delivery.setDate(delivery.getDate() + 4);
-      document.getElementById('delivery-date-display').textContent =
-        delivery.toLocaleDateString('en-GB', { day: 'numeric', month: 'long' });
-    }
-
-    const newLabel = isBilling ? 'New billing date' : 'Next order on';
-    document.getElementById('order-label').textContent = newLabel;
-    document.getElementById('current-date-display').textContent =
-      date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
-
-    document.getElementById('confirm-btn').disabled = false;
-    renderCalendar();
-  }
-
-  function prevMonth() {
-    viewMonth--; if (viewMonth < 0) { viewMonth = 11; viewYear--; }
-    renderCalendar();
-  }
-  function nextMonth() {
-    viewMonth++; if (viewMonth > 11) { viewMonth = 0; viewYear++; }
-    renderCalendar();
-  }
-
-  function confirmDate() {
-    const formatted = fmt(selectedDate, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
-    document.getElementById('success-msg').innerHTML = isBilling
-      ? `Your billing date has been moved to <strong>${formatted}</strong>.`
-      : `Your delivery has been moved to <strong>${formatted}</strong>.`;
-    document.getElementById('success-sheet').classList.add('open');
-  }
-
-  renderCalendar();
-</script>
+<script type="module" src="/src/js/app.js"></script>
 </body>
 </html>
