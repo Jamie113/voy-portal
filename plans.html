@@ -6,22 +6,37 @@
   <title>voy · Choose your plan</title>
   <link rel="stylesheet" href="/src/css/app.css" />
   <style>
-    /* ── Card hover lift ───────────────────────── */
-    .plan-card {
-      transition: transform 0.22s cubic-bezier(0.34, 1.4, 0.64, 1),
-                  box-shadow 0.2s ease;
+    /* ── Plan orbs ─────────────────────────────── */
+    .plan-orb {
+      transition:
+        transform  0.25s cubic-bezier(0.34, 1.4, 0.64, 1),
+        opacity    0.2s  ease,
+        box-shadow 0.2s  ease;
     }
-    .plan-card-alt:hover {
-      transform: scale(1.012);
-      box-shadow: 0 4px 20px rgba(25,48,30,0.07);
+    .plan-orb.active {
+      transform: scale(1.1);
+      opacity: 1;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+    }
+    .plan-orb:not(.active) {
+      transform: scale(0.96);
+      opacity: 0.45;
     }
 
-    /* ── Journey dot pulse ─────────────────────── */
-    @keyframes dotPulse {
-      0%, 100% { box-shadow: 0 0 0 0   rgba(25,48,30,0.35); }
-      50%       { box-shadow: 0 0 0 6px rgba(25,48,30,0);    }
+    /* ── Journey line ──────────────────────────── */
+    .journey-line {
+      height: 2px;
+      background: linear-gradient(to right, #e5e7eb 0%, #e5e7eb 30%, #19301E55 30%, #19301E55 68%, #e5e7eb 68%);
     }
-    .journey-dot-current { animation: dotPulse 2.5s ease-in-out infinite; }
+
+    /* ── Content crossfade ─────────────────────── */
+    #plan-content {
+      transition: opacity 0.18s ease, transform 0.18s ease;
+    }
+    #plan-content.fading {
+      opacity: 0;
+      transform: translateY(6px);
+    }
 
     /* ── Plan switch sheet spring ──────────────── */
     .sheet-body {
@@ -41,6 +56,15 @@
       transition: opacity 0.2s;
     }
     .btn-primary:active::after { opacity: 1; }
+
+    /* ── Active orb pulse (current plan) ─────── */
+    @keyframes orbPulse {
+      0%, 100% { box-shadow: 0 6px 18px rgba(25,48,30,0.25); }
+      50%       { box-shadow: 0 6px 24px rgba(25,48,30,0.45); }
+    }
+    .plan-orb.active.is-current {
+      animation: orbPulse 2.5s ease-in-out infinite;
+    }
   </style>
 </head>
 <body class="font-sans text-gray-900 antialiased bg-voy-bg">
@@ -57,193 +81,92 @@
     <div class="max-w-2xl mx-auto">
 
       <!-- ── Page header ────────────────────────── -->
-      <div class="px-5 md:px-8 mt-2 md:mt-10 mb-8">
+      <div class="px-5 md:px-8 mt-2 md:mt-10 mb-6">
         <a href="index.html" class="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-gray-700 mb-5 transition-colors">
           <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
           Manage plan
         </a>
         <h1 class="text-3xl md:text-4xl font-bold text-gray-900 leading-tight">Your treatment<br>plans</h1>
-        <p class="text-sm text-gray-400 mt-2">Clinician-designed programmes for every stage of your journey.</p>
+        <p class="text-sm text-gray-400 mt-2">Swipe through to explore — every change is clinician-reviewed.</p>
       </div>
 
-      <!-- ── Treatment journey strip ────────────── -->
+      <!-- ── Plan selector strip ────────────────── -->
+      <div class="relative mb-6">
+        <!-- Journey connector line sits behind the orbs -->
+        <div class="journey-line absolute top-[34px] left-16 right-16 z-0"></div>
+
+        <div class="overflow-x-auto hide-scrollbar" id="orb-strip">
+          <div class="flex gap-4 px-5 py-2 min-w-max">
+
+            <!-- Starter -->
+            <button class="plan-orb rounded-2xl overflow-hidden relative z-10 w-[76px]" data-plan="starter" onclick="selectPlan('starter')">
+              <div class="h-[52px] relative flex items-center justify-center" style="background: linear-gradient(135deg, #374151, #6B7280);">
+                <div class="absolute -top-4 -right-4 w-14 h-14 rounded-full bg-white/10"></div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white relative z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                </svg>
+              </div>
+              <div class="bg-white pt-2 pb-2.5 px-1 text-center">
+                <p class="text-[11px] font-bold text-gray-800 leading-none">Starter</p>
+                <p class="text-[9px] text-gray-400 mt-0.5">£35/mo</p>
+              </div>
+            </button>
+
+            <!-- Prevention -->
+            <button class="plan-orb rounded-2xl overflow-hidden relative z-10 w-[76px]" data-plan="prevention" onclick="selectPlan('prevention')">
+              <div class="h-[52px] relative flex items-center justify-center" style="background: linear-gradient(135deg, #1a5c52, #3d9e8e);">
+                <div class="absolute -top-4 -right-4 w-14 h-14 rounded-full bg-white/10"></div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white relative z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                </svg>
+              </div>
+              <div class="bg-white pt-2 pb-2.5 px-1 text-center">
+                <p class="text-[11px] font-bold text-gray-800 leading-none">Prevention</p>
+                <p class="text-[9px] text-gray-400 mt-0.5">£7.42/mo</p>
+              </div>
+            </button>
+
+            <!-- Advanced (current) -->
+            <button class="plan-orb active is-current rounded-2xl overflow-hidden relative z-10 w-[76px]" data-plan="advanced" onclick="selectPlan('advanced')">
+              <div class="h-[52px] relative flex items-center justify-center" style="background: linear-gradient(135deg, #19301E, #2d5a37);">
+                <div class="absolute -top-4 -right-4 w-14 h-14 rounded-full opacity-[0.12]" style="background: #C5E040;"></div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white relative z-10" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                </svg>
+              </div>
+              <div class="bg-white pt-2 pb-2.5 px-1 text-center border-t-2" style="border-color: #19301E;">
+                <p class="text-[11px] font-bold leading-none" style="color: #19301E;">Advanced</p>
+                <p class="text-[9px] text-gray-400 mt-0.5">£10.42/mo</p>
+              </div>
+            </button>
+
+            <!-- Maintenance -->
+            <button class="plan-orb rounded-2xl overflow-hidden relative z-10 w-[76px]" data-plan="maintenance" onclick="selectPlan('maintenance')">
+              <div class="h-[52px] relative flex items-center justify-center" style="background: linear-gradient(135deg, #6b4c28, #c49a5a);">
+                <div class="absolute -top-4 -right-4 w-14 h-14 rounded-full bg-white/10"></div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white relative z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 3l14 9-14 9V3z"/>
+                </svg>
+              </div>
+              <div class="bg-white pt-2 pb-2.5 px-1 text-center">
+                <p class="text-[11px] font-bold text-gray-800 leading-none">Maintenance</p>
+                <p class="text-[9px] text-gray-400 mt-0.5">£5.75/mo</p>
+              </div>
+            </button>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Plan content (updates on selection) ── -->
       <div class="px-5 md:px-8 mb-8">
-        <div class="flex items-center">
-          <div class="flex flex-col items-center flex-shrink-0">
-            <div class="w-2.5 h-2.5 rounded-full bg-gray-300 mb-1.5"></div>
-            <p class="text-[10px] font-medium text-gray-400">Starter</p>
-          </div>
-          <div class="flex-1 h-px bg-gray-200 mx-2.5"></div>
-          <div class="flex flex-col items-center flex-shrink-0">
-            <div class="w-2.5 h-2.5 rounded-full bg-gray-300 mb-1.5"></div>
-            <p class="text-[10px] font-medium text-gray-400">Prevention</p>
-          </div>
-          <div class="flex-1 h-px mx-2.5" style="background: #19301E; opacity: 0.35;"></div>
-          <div class="flex flex-col items-center flex-shrink-0">
-            <div class="w-3.5 h-3.5 rounded-full bg-voy-green ring-4 ring-voy-green/20 mb-1.5 journey-dot-current"></div>
-            <p class="text-[10px] font-bold text-voy-green">Advanced</p>
-          </div>
-          <div class="flex-1 h-px bg-gray-200 mx-2.5"></div>
-          <div class="flex flex-col items-center flex-shrink-0">
-            <div class="w-2.5 h-2.5 rounded-full bg-gray-200 mb-1.5"></div>
-            <p class="text-[10px] font-medium text-gray-300">Maintenance</p>
-          </div>
+        <div id="plan-content">
+          <!-- Populated by renderPlanContent() on load -->
         </div>
-      </div>
-
-      <!-- ── Plan cards ─────────────────────────── -->
-      <div class="px-5 md:px-8 mb-3">
-        <p class="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-3">Your current plan</p>
-
-        <!-- Current plan — hero card -->
-        <div class="plan-card bg-white rounded-2xl overflow-hidden" style="border: 2px solid #19301E;">
-          <!-- Gradient header -->
-          <div class="relative overflow-hidden px-5 pt-5 pb-4" style="background: linear-gradient(135deg, #19301E 0%, #2d5a37 100%);">
-            <div class="absolute -top-8 -right-8 w-36 h-36 rounded-full opacity-[0.12]" style="background: #C5E040;"></div>
-            <div class="absolute top-4 right-16 w-10 h-10 rounded-full opacity-[0.07]" style="background: #C5E040;"></div>
-            <div class="flex items-start justify-between relative mb-3">
-              <span class="inline-flex items-center gap-1 text-[10px] font-semibold text-white/90 bg-white/15 px-2.5 py-1 rounded-full">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-2.5 h-2.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-                Current plan
-              </span>
-              <div class="text-right">
-                <p class="text-2xl font-bold text-white leading-none">£125</p>
-                <p class="text-xs text-white/50 mt-0.5">per year · £10.42/mo</p>
-              </div>
-            </div>
-            <p class="text-lg font-bold text-white relative leading-snug">Advanced</p>
-            <p class="text-sm text-white/60 mt-0.5 relative">Complete coverage — dual-agent treatment with full clinical support.</p>
-          </div>
-          <!-- Features -->
-          <div class="px-5 py-4">
-            <p class="text-[11px] font-semibold text-gray-400 uppercase tracking-widest mb-3">What's included</p>
-            <div class="space-y-2.5 mb-4">
-              <div class="flex items-center gap-2.5">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-voy-green flex-shrink-0" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-                <span class="text-sm text-gray-700">Finasteride 1mg + Minoxidil 5%</span>
-              </div>
-              <div class="flex items-center gap-2.5">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-voy-green flex-shrink-0" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-                <span class="text-sm text-gray-700">Derma Roller + Caffeine Shampoo</span>
-              </div>
-              <div class="flex items-center gap-2.5">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-voy-green flex-shrink-0" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-                <span class="text-sm text-gray-700">Monthly clinical check-ins</span>
-              </div>
-              <div class="flex items-center gap-2.5">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-voy-green flex-shrink-0" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-                <span class="text-sm text-gray-700">Annual at-home blood test</span>
-              </div>
-            </div>
-            <div class="flex items-center gap-2 bg-voy-green-pale rounded-xl px-4 py-2.5">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-voy-green" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-              <span class="text-xs font-semibold text-voy-green">You're on this plan</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ── Other plans ────────────────────────── -->
-      <div class="px-5 md:px-8 space-y-3 mb-8">
-        <p class="text-[11px] font-bold text-gray-400 uppercase tracking-widest pt-3 pb-1">Other plans</p>
-
-        <!-- Prevention -->
-        <div class="plan-card plan-card-alt bg-white rounded-2xl border border-gray-100 cursor-pointer" @click="$store.sheet.open('plan-switch', { key: 'prevention' })">
-          <div class="p-5">
-            <div class="flex items-start gap-3">
-              <div class="flex-1 min-w-0">
-                <div class="flex items-center gap-2 mb-1.5">
-                  <p class="text-sm font-bold text-gray-900">Prevention</p>
-                  <span class="text-[10px] font-medium text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">Early-stage</span>
-                </div>
-                <p class="text-xs text-gray-400 leading-relaxed mb-3">For the first year of treatment, or if you're side-effect sensitive.</p>
-                <div class="flex flex-wrap gap-1.5">
-                  <span class="text-[11px] text-gray-500 bg-gray-50 border border-gray-100 px-2.5 py-1 rounded-lg">Low-dose Finasteride</span>
-                  <span class="text-[11px] text-gray-500 bg-gray-50 border border-gray-100 px-2.5 py-1 rounded-lg">Minoxidil 5%</span>
-                  <span class="text-[11px] text-gray-500 bg-gray-50 border border-gray-100 px-2.5 py-1 rounded-lg">6-month reviews</span>
-                </div>
-              </div>
-              <div class="text-right flex-shrink-0">
-                <p class="text-xl font-bold text-gray-900 leading-none">£89</p>
-                <p class="text-xs text-gray-400 mt-0.5">/year</p>
-              </div>
-            </div>
-            <div class="mt-4 pt-3 border-t border-gray-50 flex items-center justify-between">
-              <span class="text-xs text-gray-400">£7.42/mo</span>
-              <span class="text-xs font-semibold text-voy-green flex items-center gap-1">
-                Switch to this plan
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
-              </span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Maintenance -->
-        <div class="plan-card plan-card-alt bg-white rounded-2xl border border-gray-100 cursor-pointer" @click="$store.sheet.open('plan-switch', { key: 'maintenance' })">
-          <div class="p-5">
-            <div class="flex items-start gap-3">
-              <div class="flex-1 min-w-0">
-                <div class="flex items-center gap-2 mb-1.5">
-                  <p class="text-sm font-bold text-gray-900">Maintenance</p>
-                  <span class="text-[10px] font-medium text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">18+ months</span>
-                </div>
-                <p class="text-xs text-gray-400 leading-relaxed mb-3">For patients who've seen results and want to hold onto what they've regained.</p>
-                <div class="flex flex-wrap gap-1.5">
-                  <span class="text-[11px] text-gray-500 bg-gray-50 border border-gray-100 px-2.5 py-1 rounded-lg">Reduced DHT blocker</span>
-                  <span class="text-[11px] text-gray-500 bg-gray-50 border border-gray-100 px-2.5 py-1 rounded-lg">Hair Vitamins</span>
-                  <span class="text-[11px] text-gray-500 bg-gray-50 border border-gray-100 px-2.5 py-1 rounded-lg">Annual review</span>
-                </div>
-              </div>
-              <div class="text-right flex-shrink-0">
-                <p class="text-xl font-bold text-gray-900 leading-none">£69</p>
-                <p class="text-xs text-gray-400 mt-0.5">/year</p>
-              </div>
-            </div>
-            <div class="mt-4 pt-3 border-t border-gray-50 flex items-center justify-between">
-              <span class="text-xs text-gray-400">£5.75/mo</span>
-              <span class="text-xs font-semibold text-voy-green flex items-center gap-1">
-                Switch to this plan
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
-              </span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Starter -->
-        <div class="plan-card plan-card-alt bg-white rounded-2xl border border-gray-100 cursor-pointer" @click="$store.sheet.open('plan-switch', { key: 'starter' })">
-          <div class="p-5">
-            <div class="flex items-start gap-3">
-              <div class="flex-1 min-w-0">
-                <div class="flex items-center gap-2 mb-1.5">
-                  <p class="text-sm font-bold text-gray-900">Starter</p>
-                  <span class="text-[10px] font-medium text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">Entry-level</span>
-                </div>
-                <p class="text-xs text-gray-400 leading-relaxed mb-3">Minoxidil-only approach at an accessible price. Upgrade any time.</p>
-                <div class="flex flex-wrap gap-1.5">
-                  <span class="text-[11px] text-gray-500 bg-gray-50 border border-gray-100 px-2.5 py-1 rounded-lg">Minoxidil 5%</span>
-                  <span class="text-[11px] text-gray-500 bg-gray-50 border border-gray-100 px-2.5 py-1 rounded-lg">Caffeine Shampoo</span>
-                  <span class="text-[11px] text-gray-500 bg-gray-50 border border-gray-100 px-2.5 py-1 rounded-lg">Consultation</span>
-                </div>
-              </div>
-              <div class="text-right flex-shrink-0">
-                <p class="text-xl font-bold text-gray-900 leading-none">£35</p>
-                <p class="text-xs text-gray-400 mt-0.5">/month</p>
-              </div>
-            </div>
-            <div class="mt-4 pt-3 border-t border-gray-50 flex items-center justify-between">
-              <span class="text-xs text-gray-400">Flexible monthly billing</span>
-              <span class="text-xs font-semibold text-voy-green flex items-center gap-1">
-                Switch to this plan
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
-              </span>
-            </div>
-          </div>
-        </div>
-
       </div>
 
       <!-- ── Find my plan — inline ───────────────── -->
-      <div class="px-5 md:px-8 mb-10">
+      <div class="px-5 md:px-8 mb-10" x-data>
         <button @click="$store.sheet.open('guide')" class="w-full flex items-center justify-between bg-white rounded-2xl border border-gray-100 px-5 py-4 hover:border-voy-green/40 transition-colors group text-left">
           <div class="flex items-center gap-3">
             <div class="w-9 h-9 bg-voy-green rounded-xl flex items-center justify-center flex-shrink-0">
@@ -269,53 +192,38 @@
         <div class="bg-white rounded-2xl overflow-hidden border border-gray-100">
           <div class="h-28 relative overflow-hidden flex items-end" style="background: linear-gradient(135deg, #19301E 0%, #2d5a37 100%);">
             <div class="absolute -top-6 -right-6 w-36 h-36 rounded-full opacity-[0.12]" style="background: #C5E040;"></div>
-            <div class="absolute top-5 right-10 w-14 h-14 rounded-full opacity-[0.07]" style="background: #C5E040;"></div>
             <svg xmlns="http://www.w3.org/2000/svg" class="absolute right-5 bottom-2 w-20 h-20 opacity-[0.15] text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="0.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-            <div class="px-4 pb-3 relative">
-              <span class="text-[10px] font-bold text-white/60 uppercase tracking-widest bg-white/10 rounded-md px-2 py-0.5">DHT Blocker</span>
-            </div>
+            <div class="px-4 pb-3 relative"><span class="text-[10px] font-bold text-white/60 uppercase tracking-widest bg-white/10 rounded-md px-2 py-0.5">DHT Blocker</span></div>
           </div>
           <div class="p-4">
             <h3 class="text-sm font-bold text-gray-900 mb-1.5">How Finasteride protects your follicles</h3>
             <p class="text-xs text-gray-500 leading-relaxed mb-3">Finasteride reduces DHT — the hormone that causes follicles to miniaturise over time. Most patients see stabilisation within 3–6 months, with some experiencing regrowth beyond that.</p>
-            <a href="#" class="inline-flex items-center gap-1 text-xs font-semibold text-voy-green hover:underline">
-              Read the guide <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
-            </a>
+            <a href="#" class="inline-flex items-center gap-1 text-xs font-semibold text-voy-green hover:underline">Read the guide <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg></a>
           </div>
         </div>
 
         <div class="bg-white rounded-2xl overflow-hidden border border-gray-100">
           <div class="h-28 relative overflow-hidden flex items-end" style="background: linear-gradient(135deg, #1a5c52 0%, #9BD1C2 100%);">
             <div class="absolute -top-8 -right-8 w-40 h-40 rounded-full opacity-20" style="background: white;"></div>
-            <div class="absolute top-4 right-12 w-12 h-12 rounded-full opacity-10" style="background: white;"></div>
             <svg xmlns="http://www.w3.org/2000/svg" class="absolute right-5 bottom-2 w-20 h-20 opacity-20 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="0.8"><path stroke-linecap="round" stroke-linejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>
-            <div class="px-4 pb-3 relative">
-              <span class="text-[10px] font-bold text-white/70 uppercase tracking-widest bg-white/10 rounded-md px-2 py-0.5">Growth Stimulant</span>
-            </div>
+            <div class="px-4 pb-3 relative"><span class="text-[10px] font-bold text-white/70 uppercase tracking-widest bg-white/10 rounded-md px-2 py-0.5">Growth Stimulant</span></div>
           </div>
           <div class="p-4">
             <h3 class="text-sm font-bold text-gray-900 mb-1.5">The role of Minoxidil in regrowth</h3>
             <p class="text-xs text-gray-500 leading-relaxed mb-3">Minoxidil extends the active growth phase of your follicles and increases scalp blood flow. Combined with a DHT blocker, it addresses hair loss from two distinct angles.</p>
-            <a href="#" class="inline-flex items-center gap-1 text-xs font-semibold text-voy-green hover:underline">
-              Read the guide <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
-            </a>
+            <a href="#" class="inline-flex items-center gap-1 text-xs font-semibold text-voy-green hover:underline">Read the guide <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg></a>
           </div>
         </div>
 
         <div class="bg-white rounded-2xl overflow-hidden border border-gray-100">
           <div class="h-28 relative overflow-hidden flex items-end" style="background: linear-gradient(135deg, #6b4c28 0%, #c49a5a 100%);">
-            <div class="absolute -bottom-10 -right-10 w-44 h-44 rounded-full opacity-[0.12]" style="background: #F4F1E7;"></div>
             <svg xmlns="http://www.w3.org/2000/svg" class="absolute right-5 bottom-2 w-20 h-20 opacity-[0.18] text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="0.8"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
-            <div class="px-4 pb-3 relative">
-              <span class="text-[10px] font-bold text-white/70 uppercase tracking-widest bg-white/10 rounded-md px-2 py-0.5">Clinical Guidance</span>
-            </div>
+            <div class="px-4 pb-3 relative"><span class="text-[10px] font-bold text-white/70 uppercase tracking-widest bg-white/10 rounded-md px-2 py-0.5">Clinical Guidance</span></div>
           </div>
           <div class="p-4">
             <h3 class="text-sm font-bold text-gray-900 mb-1.5">Knowing when to change your plan</h3>
             <p class="text-xs text-gray-500 leading-relaxed mb-3">Plan changes are guided by clinical signals — how your hair has responded, side effects, and your long-term goals. Your clinician reviews everything before any switch takes effect.</p>
-            <a href="#" class="inline-flex items-center gap-1 text-xs font-semibold text-voy-green hover:underline">
-              Read the guide <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
-            </a>
+            <a href="#" class="inline-flex items-center gap-1 text-xs font-semibold text-voy-green hover:underline">Read the guide <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg></a>
           </div>
         </div>
 
@@ -333,18 +241,14 @@
   </main>
 
   <div id="mobile-nav-slot"></div>
-
 </div>
 
 <!-- ── Guide sheet backdrop ───────────────────── -->
-<div
-  x-show="$store.sheet.isOpen('guide')"
-  @click="$store.sheet.close()"
+<div x-data x-show="$store.sheet.isOpen('guide')" @click="$store.sheet.close()"
   class="fixed inset-0 bg-black/40 z-30"
   x-transition:enter="transition duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
   x-transition:leave="transition duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
-  style="display:none"
-></div>
+  style="display:none"></div>
 
 <!-- ── AI guide sheet ─────────────────────────── -->
 <div
@@ -378,27 +282,20 @@
       </button>
     </div>
   </div>
-
   <div x-ref="chatMessages" id="chat-messages" class="flex-1 overflow-y-auto px-4 py-4 space-y-4 min-h-0">
     <template x-for="(msg, i) in messages" :key="i">
       <div>
         <div x-show="msg.type === 'ai'" class="flex items-end gap-2 chat-msg">
           <div x-html="aiAvatar" class="flex-shrink-0"></div>
-          <div class="bg-gray-100 rounded-2xl rounded-bl-sm px-4 py-3 max-w-xs">
-            <p class="text-sm text-gray-800 leading-relaxed" x-text="msg.text"></p>
-          </div>
+          <div class="bg-gray-100 rounded-2xl rounded-bl-sm px-4 py-3 max-w-xs"><p class="text-sm text-gray-800 leading-relaxed" x-text="msg.text"></p></div>
         </div>
         <div x-show="msg.type === 'user'" class="flex justify-end chat-msg">
-          <div class="bg-voy-green rounded-2xl rounded-br-sm px-4 py-3 max-w-xs">
-            <p class="text-sm text-white leading-relaxed" x-text="msg.text"></p>
-          </div>
+          <div class="bg-voy-green rounded-2xl rounded-br-sm px-4 py-3 max-w-xs"><p class="text-sm text-white leading-relaxed" x-text="msg.text"></p></div>
         </div>
         <div x-show="msg.type === 'result'" class="flex items-start gap-2 chat-msg">
           <div x-html="aiAvatar" class="flex-shrink-0 mt-1"></div>
           <div class="flex-1 max-w-xs">
-            <div class="bg-gray-100 rounded-2xl rounded-tl-sm px-4 py-3 mb-2">
-              <p class="text-sm text-gray-800 leading-relaxed" x-text="msg.reason"></p>
-            </div>
+            <div class="bg-gray-100 rounded-2xl rounded-tl-sm px-4 py-3 mb-2"><p class="text-sm text-gray-800 leading-relaxed" x-text="msg.reason"></p></div>
             <div class="bg-voy-green rounded-2xl px-4 py-3.5">
               <p class="text-[10px] font-semibold text-white/50 uppercase tracking-widest mb-0.5">Recommended plan</p>
               <p class="text-base font-bold text-white" x-text="msg.plan"></p>
@@ -410,7 +307,6 @@
       </div>
     </template>
   </div>
-
   <div x-show="typing" class="flex-shrink-0 px-4 pb-3" style="display:none">
     <div class="flex items-end gap-2">
       <div class="w-7 h-7 bg-voy-green rounded-full flex items-center justify-center flex-shrink-0">
@@ -425,13 +321,11 @@
       </div>
     </div>
   </div>
-
   <div x-show="showOptions" class="flex-shrink-0 px-4 pb-3 space-y-2" style="display:none">
     <template x-for="opt in options" :key="opt.value">
       <button @click="selectOption(opt.value, opt.label)" class="guide-option w-full text-left px-4 py-3.5 rounded-xl border border-gray-200 text-sm font-medium text-gray-800" x-text="opt.label"></button>
     </template>
   </div>
-
   <div x-show="showInput" class="flex-shrink-0 px-4 pb-6 pt-1" style="display:none">
     <div class="flex gap-2 items-center bg-gray-100 rounded-2xl px-4 py-2.5">
       <input x-model="followUpText" @keydown.enter="sendFollowUp()" type="text" placeholder="Ask a follow-up question..." class="flex-1 bg-transparent text-sm text-gray-800 placeholder-gray-400 outline-none py-1"/>
@@ -443,38 +337,23 @@
 </div>
 
 <!-- ── Plan switch backdrop ───────────────────── -->
-<div
-  x-show="$store.sheet.isOpen('plan-switch')"
-  @click="$store.sheet.close()"
+<div x-data x-show="$store.sheet.isOpen('plan-switch')" @click="$store.sheet.close()"
   class="fixed inset-0 bg-black/40 z-30"
   x-transition:enter="transition duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
   x-transition:leave="transition duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
-  style="display:none"
-></div>
+  style="display:none"></div>
 
 <!-- ── Plan switch sheet ──────────────────────── -->
 <div
   x-data="{
     confirmed: false,
     get plan() {
-      const plans = {
-        prevention: {
-          name: 'Prevention',
-          price: '£89 / year',
-          whatChanges: 'You\'ll move from dual-agent treatment to a lower-dosage approach — Minoxidil + low-dose Finasteride, with clinical reviews every 6 months instead of monthly.'
-        },
-        maintenance: {
-          name: 'Maintenance',
-          price: '£69 / year',
-          whatChanges: 'You\'ll move to a reduced-dose programme designed for patients who\'ve seen results and want to hold onto what they\'ve regained.'
-        },
-        starter: {
-          name: 'Starter',
-          price: '£35 / month',
-          whatChanges: 'You\'ll move to a Minoxidil-only approach, dropping the DHT blocker. An accessible entry point — you can upgrade to a stronger plan at any time.'
-        }
+      const p = {
+        prevention: { name: 'Prevention', price: '£89 / year', whatChanges: 'You\'ll move from dual-agent treatment to a lower-dosage approach — Minoxidil + low-dose Finasteride, with clinical reviews every 6 months instead of monthly.' },
+        maintenance: { name: 'Maintenance', price: '£69 / year', whatChanges: 'You\'ll move to a reduced-dose programme designed for patients who\'ve seen results and want to hold onto what they\'ve regained.' },
+        starter: { name: 'Starter', price: '£35 / month', whatChanges: 'You\'ll move to a Minoxidil-only approach, dropping the DHT blocker. An accessible entry point — you can upgrade to a stronger plan at any time.' }
       };
-      return plans[$store.sheet.data.key] || plans.prevention;
+      return p[$store.sheet.data.key] || p.prevention;
     }
   }"
   x-init="$watch('$store.sheet.active', val => { if (val !== 'plan-switch') confirmed = false })"
@@ -488,12 +367,9 @@
 >
   <div class="w-10 h-1 bg-gray-200 rounded-full mx-auto mb-6"></div>
 
-  <!-- Request state -->
   <div x-show="!confirmed">
     <div class="w-14 h-14 rounded-2xl bg-voy-green-pale flex items-center justify-center mb-4">
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-voy-green" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
-      </svg>
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-voy-green" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
     </div>
     <p class="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-1">Switch to</p>
     <p class="text-2xl font-bold text-gray-900 mb-0.5" x-text="plan.name"></p>
@@ -506,31 +382,184 @@
       <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-voy-green flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
       <p class="text-sm text-voy-green font-medium leading-relaxed">Your clinician reviews this before anything takes effect. Your current plan continues in the meantime.</p>
     </div>
-    <button @click="confirmed = true" class="btn-primary w-full bg-voy-green text-white font-semibold rounded-full py-3.5 text-sm hover:opacity-90 transition-opacity mb-3">
-      Request plan change
-    </button>
-    <button @click="$store.sheet.close()" class="w-full text-gray-400 text-sm py-2 hover:text-gray-600 transition-colors">
-      Cancel
-    </button>
+    <button @click="confirmed = true" class="btn-primary w-full bg-voy-green text-white font-semibold rounded-full py-3.5 text-sm hover:opacity-90 transition-opacity mb-3">Request plan change</button>
+    <button @click="$store.sheet.close()" class="w-full text-gray-400 text-sm py-2 hover:text-gray-600 transition-colors">Cancel</button>
   </div>
 
-  <!-- Success state -->
   <div x-show="confirmed" class="flex flex-col items-center py-4 text-center" style="display:none">
     <div
       class="w-16 h-16 bg-voy-green rounded-full flex items-center justify-center mb-5 mx-auto"
-      :style="confirmed ? 'transform: scale(1)' : 'transform: scale(0)'"
-      style="transform: scale(0); transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s;"
+      :style="confirmed ? 'transform:scale(1)' : 'transform:scale(0)'"
+      style="transform:scale(0); transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1) 0.1s;"
     >
       <svg class="w-8 h-8 text-white" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
     </div>
     <h2 class="text-xl font-bold text-gray-900 mb-2">Request sent</h2>
     <p class="text-sm text-gray-400 mb-8 leading-relaxed max-w-xs mx-auto">Your clinician will be in touch within 2 working days to confirm your plan change.</p>
-    <a href="index.html" class="btn-primary block w-full bg-voy-green text-white font-semibold rounded-full py-3.5 text-sm hover:opacity-90 transition-opacity text-center">
-      Back to dashboard
-    </a>
+    <a href="index.html" class="btn-primary block w-full bg-voy-green text-white font-semibold rounded-full py-3.5 text-sm hover:opacity-90 transition-opacity text-center">Back to dashboard</a>
   </div>
-
 </div>
+
+<!-- ── Plan selector logic ─────────────────────── -->
+<script>
+  const CURRENT_PLAN = 'advanced';
+
+  const PLAN_ORDER = ['starter', 'prevention', 'advanced', 'maintenance'];
+
+  const plans = {
+    starter: {
+      key: 'starter',
+      label: 'Starter',
+      stage: 'Entry-level',
+      outcome: 'A lighter touch',
+      description: 'Minoxidil-only approach at an accessible price. Upgrade any time.',
+      price: '£35',
+      period: '/month',
+      monthly: '£35/mo',
+      colorFrom: '#374151',
+      colorTo: '#6B7280',
+      accentLight: '#F3F4F6',
+      features: ['Minoxidil 5%', 'Caffeine Shampoo', 'Initial clinician consultation'],
+    },
+    prevention: {
+      key: 'prevention',
+      label: 'Prevention',
+      stage: 'Early-stage',
+      outcome: 'Gentle protection',
+      description: "For the first year of treatment, or if you're side-effect sensitive.",
+      price: '£89',
+      period: '/year',
+      monthly: '£7.42/mo',
+      colorFrom: '#1a5c52',
+      colorTo: '#3d9e8e',
+      accentLight: 'rgba(155,209,194,0.2)',
+      features: ['Low-dose Finasteride', 'Minoxidil 5%', '6-monthly clinical reviews'],
+    },
+    advanced: {
+      key: 'advanced',
+      label: 'Advanced',
+      stage: 'Full treatment',
+      outcome: 'Complete coverage',
+      description: 'Dual-agent treatment with full clinical support — the most comprehensive programme we offer.',
+      price: '£125',
+      period: '/year',
+      monthly: '£10.42/mo',
+      colorFrom: '#19301E',
+      colorTo: '#2d5a37',
+      accentLight: '#EAF0EE',
+      features: ['Finasteride 1mg + Minoxidil 5%', 'Derma Roller + Caffeine Shampoo', 'Monthly clinical check-ins', 'Annual at-home blood test'],
+    },
+    maintenance: {
+      key: 'maintenance',
+      label: 'Maintenance',
+      stage: '18+ months',
+      outcome: 'Sustain your results',
+      description: "For patients who've seen results and want to hold onto what they've regained.",
+      price: '£69',
+      period: '/year',
+      monthly: '£5.75/mo',
+      colorFrom: '#6b4c28',
+      colorTo: '#c49a5a',
+      accentLight: 'rgba(196,154,90,0.15)',
+      features: ['Reduced-dose DHT blocker', 'Caffeine Shampoo + Hair Vitamins', 'Annual clinical review'],
+    },
+  };
+
+  let activePlan = CURRENT_PLAN;
+
+  function renderPlanContent(plan) {
+    const isCurrent = plan.key === CURRENT_PLAN;
+
+    // Journey strip inside the card
+    const journeyHTML = PLAN_ORDER.map(key => {
+      const isActive  = key === plan.key;
+      const isCurr    = key === CURRENT_PLAN;
+      const dotColor  = isActive  ? 'background:' + plan.colorFrom + '; width:10px; height:10px;'
+                      : isCurr   ? 'background:#19301E; width:8px; height:8px; opacity:0.5;'
+                      : 'background:#d1d5db; width:6px; height:6px;';
+      const label     = plans[key].label;
+      const labelCls  = isActive ? 'font-bold' : 'text-gray-400';
+      return `
+        <div class="flex flex-col items-center gap-1 flex-shrink-0">
+          <div style="border-radius:9999px; ${dotColor}" class="flex-shrink-0"></div>
+          <p class="text-[9px] ${labelCls}" style="${isActive ? 'color:' + plan.colorFrom : ''}">${label}</p>
+        </div>`;
+    }).join(`<div style="flex:1; height:1px; background:#e5e7eb; margin-top:-10px;"></div>`);
+
+    const featuresHTML = plan.features.map(f =>
+      `<span class="text-[11px] text-gray-600 bg-gray-50 border border-gray-100 px-2.5 py-1 rounded-lg">${f}</span>`
+    ).join('');
+
+    const ctaHTML = isCurrent
+      ? `<div class="flex items-center justify-center gap-2 rounded-xl px-4 py-3" style="background:${plan.accentLight}">
+           <svg class="w-3.5 h-3.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" style="color:${plan.colorFrom}"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+           <span class="text-sm font-semibold" style="color:${plan.colorFrom}">You're on this plan</span>
+         </div>`
+      : `<button onclick="Alpine.store('sheet').open('plan-switch', { key: '${plan.key}' })"
+                class="btn-primary w-full text-white font-semibold rounded-full py-3.5 text-sm hover:opacity-90 transition-opacity"
+                style="background:${plan.colorFrom}">
+           Switch to ${plan.label}
+         </button>`;
+
+    return `
+      <div class="rounded-2xl overflow-hidden bg-white" style="border: 2px solid ${isCurrent ? plan.colorFrom : '#f3f4f6'};">
+        <!-- Gradient header -->
+        <div class="relative overflow-hidden px-5 pt-5 pb-5"
+             style="background: linear-gradient(135deg, ${plan.colorFrom} 0%, ${plan.colorTo} 100%);">
+          <div class="absolute -top-8 -right-8 w-32 h-32 rounded-full" style="background:rgba(255,255,255,0.08);"></div>
+          <div class="absolute top-3 right-20 w-8 h-8 rounded-full" style="background:rgba(255,255,255,0.05);"></div>
+          <div class="flex items-center justify-between mb-3 relative">
+            <span class="text-[10px] font-bold text-white/60 uppercase tracking-widest bg-white/10 rounded-md px-2 py-0.5">${plan.stage}</span>
+            ${isCurrent ? `<span class="text-[10px] font-semibold text-white/90 bg-white/20 px-2.5 py-1 rounded-full">Current plan</span>` : ''}
+          </div>
+          <p class="text-xl font-bold text-white leading-snug mb-1 relative">${plan.outcome}</p>
+          <p class="text-sm mb-4 relative leading-relaxed" style="color:rgba(255,255,255,0.6)">${plan.description}</p>
+          <div class="flex items-end gap-1.5 relative">
+            <p class="text-3xl font-bold text-white leading-none">${plan.price}</p>
+            <p class="text-sm mb-0.5" style="color:rgba(255,255,255,0.5)">${plan.period}</p>
+            <p class="text-xs mb-0.5 ml-1" style="color:rgba(255,255,255,0.35)">${plan.monthly}</p>
+          </div>
+        </div>
+        <!-- Features + CTA -->
+        <div class="px-5 py-4">
+          <p class="text-[11px] font-semibold text-gray-400 uppercase tracking-widest mb-3">What's included</p>
+          <div class="flex flex-wrap gap-1.5 mb-5">${featuresHTML}</div>
+          ${ctaHTML}
+        </div>
+      </div>`;
+  }
+
+  function selectPlan(key) {
+    if (key === activePlan) return;
+
+    // Update active orb styles
+    document.querySelectorAll('.plan-orb').forEach(b => {
+      b.classList.remove('active');
+      if (key === CURRENT_PLAN) b.classList.remove('is-current');
+    });
+    const activeOrb = document.querySelector(`[data-plan="${key}"]`);
+    activeOrb.classList.add('active');
+    if (key === CURRENT_PLAN) activeOrb.classList.add('is-current');
+
+    // Scroll active orb into view
+    activeOrb.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+
+    // Fade out content
+    const content = document.getElementById('plan-content');
+    content.classList.add('fading');
+
+    setTimeout(() => {
+      activePlan = key;
+      content.innerHTML = renderPlanContent(plans[key]);
+      content.classList.remove('fading');
+    }, 180);
+  }
+
+  // Initial render
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('plan-content').innerHTML = renderPlanContent(plans[CURRENT_PLAN]);
+  });
+</script>
 
 <script type="module" src="/src/js/app.js"></script>
 </body>
