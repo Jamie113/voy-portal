@@ -23,12 +23,6 @@
       opacity: 0.45;
     }
 
-    /* ── Journey line ──────────────────────────── */
-    .journey-line {
-      height: 2px;
-      background: linear-gradient(to right, #e5e7eb 0%, #e5e7eb 30%, #19301E55 30%, #19301E55 68%, #e5e7eb 68%);
-    }
-
     /* ── Content crossfade ─────────────────────── */
     #plan-content {
       transition: opacity 0.18s ease, transform 0.18s ease;
@@ -86,75 +80,70 @@
           <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
           Manage plan
         </a>
-        <h1 class="text-3xl md:text-4xl font-bold text-gray-900 leading-tight">Your treatment<br>plans</h1>
-        <p class="text-sm text-gray-400 mt-2">Swipe through to explore — every change is clinician-reviewed.</p>
+        <h1 class="text-3xl md:text-4xl font-bold text-gray-900 leading-tight">View available plans</h1>
+        <p class="text-sm text-gray-400 mt-2">Plans tailored to achieving your health goal</p>
       </div>
 
       <!-- ── Plan selector strip ────────────────── -->
-      <div class="relative mb-6">
-        <!-- Journey connector line sits behind the orbs -->
-        <div class="journey-line absolute top-[34px] left-16 right-16 z-0"></div>
+      <div class="overflow-x-auto hide-scrollbar mb-6" id="orb-strip">
+        <div class="flex gap-3 px-5 py-2 min-w-max">
 
-        <div class="overflow-x-auto hide-scrollbar" id="orb-strip">
-          <div class="flex gap-4 px-5 py-2 min-w-max">
+          <!-- Starter -->
+          <button class="plan-orb rounded-2xl overflow-hidden w-[100px]" data-plan="starter" onclick="selectPlan('starter')">
+            <div class="h-[72px] relative flex items-center justify-center" style="background: linear-gradient(135deg, #374151, #6B7280);">
+              <div class="absolute -top-5 -right-5 w-16 h-16 rounded-full bg-white/10"></div>
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-white relative z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+              </svg>
+            </div>
+            <div class="bg-white pt-2.5 pb-3 px-2 text-center">
+              <p class="text-xs font-bold text-gray-800 leading-none">Starter</p>
+              <p class="text-[10px] text-gray-400 mt-1">£35/mo</p>
+            </div>
+          </button>
 
-            <!-- Starter -->
-            <button class="plan-orb rounded-2xl overflow-hidden relative z-10 w-[76px]" data-plan="starter" onclick="selectPlan('starter')">
-              <div class="h-[52px] relative flex items-center justify-center" style="background: linear-gradient(135deg, #374151, #6B7280);">
-                <div class="absolute -top-4 -right-4 w-14 h-14 rounded-full bg-white/10"></div>
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white relative z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
-                </svg>
-              </div>
-              <div class="bg-white pt-2 pb-2.5 px-1 text-center">
-                <p class="text-[11px] font-bold text-gray-800 leading-none">Starter</p>
-                <p class="text-[9px] text-gray-400 mt-0.5">£35/mo</p>
-              </div>
-            </button>
+          <!-- Prevention -->
+          <button class="plan-orb rounded-2xl overflow-hidden w-[100px]" data-plan="prevention" onclick="selectPlan('prevention')">
+            <div class="h-[72px] relative flex items-center justify-center" style="background: linear-gradient(135deg, #1a5c52, #3d9e8e);">
+              <div class="absolute -top-5 -right-5 w-16 h-16 rounded-full bg-white/10"></div>
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-white relative z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+              </svg>
+            </div>
+            <div class="bg-white pt-2.5 pb-3 px-2 text-center">
+              <p class="text-xs font-bold text-gray-800 leading-none">Prevention</p>
+              <p class="text-[10px] text-gray-400 mt-1">£7.42/mo</p>
+            </div>
+          </button>
 
-            <!-- Prevention -->
-            <button class="plan-orb rounded-2xl overflow-hidden relative z-10 w-[76px]" data-plan="prevention" onclick="selectPlan('prevention')">
-              <div class="h-[52px] relative flex items-center justify-center" style="background: linear-gradient(135deg, #1a5c52, #3d9e8e);">
-                <div class="absolute -top-4 -right-4 w-14 h-14 rounded-full bg-white/10"></div>
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white relative z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
-                </svg>
-              </div>
-              <div class="bg-white pt-2 pb-2.5 px-1 text-center">
-                <p class="text-[11px] font-bold text-gray-800 leading-none">Prevention</p>
-                <p class="text-[9px] text-gray-400 mt-0.5">£7.42/mo</p>
-              </div>
-            </button>
+          <!-- Advanced (current) -->
+          <button class="plan-orb active is-current rounded-2xl overflow-hidden w-[100px]" data-plan="advanced" onclick="selectPlan('advanced')">
+            <div class="h-[72px] relative flex items-center justify-center" style="background: linear-gradient(135deg, #19301E, #2d5a37);">
+              <div class="absolute -top-5 -right-5 w-16 h-16 rounded-full opacity-[0.12]" style="background: #C5E040;"></div>
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-white relative z-10" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+              </svg>
+            </div>
+            <div class="bg-white pt-2.5 pb-3 px-2 text-center border-t-2" style="border-color: #19301E;">
+              <p class="text-xs font-bold leading-none" style="color: #19301E;">Advanced</p>
+              <p class="text-[10px] text-gray-400 mt-1">£10.42/mo</p>
+            </div>
+          </button>
 
-            <!-- Advanced (current) -->
-            <button class="plan-orb active is-current rounded-2xl overflow-hidden relative z-10 w-[76px]" data-plan="advanced" onclick="selectPlan('advanced')">
-              <div class="h-[52px] relative flex items-center justify-center" style="background: linear-gradient(135deg, #19301E, #2d5a37);">
-                <div class="absolute -top-4 -right-4 w-14 h-14 rounded-full opacity-[0.12]" style="background: #C5E040;"></div>
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white relative z-10" viewBox="0 0 20 20" fill="currentColor">
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                </svg>
-              </div>
-              <div class="bg-white pt-2 pb-2.5 px-1 text-center border-t-2" style="border-color: #19301E;">
-                <p class="text-[11px] font-bold leading-none" style="color: #19301E;">Advanced</p>
-                <p class="text-[9px] text-gray-400 mt-0.5">£10.42/mo</p>
-              </div>
-            </button>
+          <!-- Maintenance -->
+          <button class="plan-orb rounded-2xl overflow-hidden w-[100px]" data-plan="maintenance" onclick="selectPlan('maintenance')">
+            <div class="h-[72px] relative flex items-center justify-center" style="background: linear-gradient(135deg, #6b4c28, #c49a5a);">
+              <div class="absolute -top-5 -right-5 w-16 h-16 rounded-full bg-white/10"></div>
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-white relative z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 3l14 9-14 9V3z"/>
+              </svg>
+            </div>
+            <div class="bg-white pt-2.5 pb-3 px-2 text-center">
+              <p class="text-xs font-bold text-gray-800 leading-none">Maintenance</p>
+              <p class="text-[10px] text-gray-400 mt-1">£5.75/mo</p>
+            </div>
+          </button>
 
-            <!-- Maintenance -->
-            <button class="plan-orb rounded-2xl overflow-hidden relative z-10 w-[76px]" data-plan="maintenance" onclick="selectPlan('maintenance')">
-              <div class="h-[52px] relative flex items-center justify-center" style="background: linear-gradient(135deg, #6b4c28, #c49a5a);">
-                <div class="absolute -top-4 -right-4 w-14 h-14 rounded-full bg-white/10"></div>
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white relative z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 3l14 9-14 9V3z"/>
-                </svg>
-              </div>
-              <div class="bg-white pt-2 pb-2.5 px-1 text-center">
-                <p class="text-[11px] font-bold text-gray-800 leading-none">Maintenance</p>
-                <p class="text-[9px] text-gray-400 mt-0.5">£5.75/mo</p>
-              </div>
-            </button>
-
-          </div>
         </div>
       </div>
 
@@ -231,13 +220,6 @@
 
       </div>
 
-      <!-- ── Clinician assurance ─────────────────── -->
-      <div class="px-5 md:px-8 mb-12">
-        <div class="flex items-center gap-3 bg-white rounded-2xl border border-gray-100 px-4 py-3.5">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-voy-green flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-          <p class="text-xs text-gray-500 leading-relaxed">All plan changes are reviewed by your clinician before taking effect. Your current plan continues until confirmed.</p>
-        </div>
-      </div>
 
     </div>
   </main>
@@ -413,11 +395,11 @@
       key: 'starter',
       label: 'Starter',
       stage: 'Entry-level',
-      outcome: 'A lighter touch',
-      description: 'Minoxidil-only approach at an accessible price. Upgrade any time.',
+      pitch: 'The first step to better hair.',
+      tagline: 'Effective on its own — and a solid foundation to build on.',
       price: '£35',
-      period: '/month',
-      monthly: '£35/mo',
+      period: 'per month',
+      monthly: null,
       colorFrom: '#374151',
       colorTo: '#6B7280',
       accentLight: '#F3F4F6',
@@ -427,11 +409,11 @@
       key: 'prevention',
       label: 'Prevention',
       stage: 'Early-stage',
-      outcome: 'Gentle protection',
-      description: "For the first year of treatment, or if you're side-effect sensitive.",
+      pitch: 'Proven protection, lighter touch.',
+      tagline: 'Built for the early stages or if you\'re side-effect sensitive.',
       price: '£89',
-      period: '/year',
-      monthly: '£7.42/mo',
+      period: 'per year',
+      monthly: 'From £7.42 a month',
       colorFrom: '#1a5c52',
       colorTo: '#3d9e8e',
       accentLight: 'rgba(155,209,194,0.2)',
@@ -441,11 +423,11 @@
       key: 'advanced',
       label: 'Advanced',
       stage: 'Full treatment',
-      outcome: 'Complete coverage',
-      description: 'Dual-agent treatment with full clinical support — the most comprehensive programme we offer.',
+      pitch: 'Your most powerful defence.',
+      tagline: 'Dual-action treatment that tackles loss at the root — and helps you regrow what\'s been lost.',
       price: '£125',
-      period: '/year',
-      monthly: '£10.42/mo',
+      period: 'per year',
+      monthly: 'From £10.42 a month',
       colorFrom: '#19301E',
       colorTo: '#2d5a37',
       accentLight: '#EAF0EE',
@@ -455,11 +437,11 @@
       key: 'maintenance',
       label: 'Maintenance',
       stage: '18+ months',
-      outcome: 'Sustain your results',
-      description: "For patients who've seen results and want to hold onto what they've regained.",
+      pitch: 'Lock in what you\'ve gained.',
+      tagline: 'You\'ve done the hard work. This keeps your results exactly where you want them.',
       price: '£69',
-      period: '/year',
-      monthly: '£5.75/mo',
+      period: 'per year',
+      monthly: 'From £5.75 a month',
       colorFrom: '#6b4c28',
       colorTo: '#c49a5a',
       accentLight: 'rgba(196,154,90,0.15)',
@@ -472,62 +454,66 @@
   function renderPlanContent(plan) {
     const isCurrent = plan.key === CURRENT_PLAN;
 
-    // Journey strip inside the card
-    const journeyHTML = PLAN_ORDER.map(key => {
-      const isActive  = key === plan.key;
-      const isCurr    = key === CURRENT_PLAN;
-      const dotColor  = isActive  ? 'background:' + plan.colorFrom + '; width:10px; height:10px;'
-                      : isCurr   ? 'background:#19301E; width:8px; height:8px; opacity:0.5;'
-                      : 'background:#d1d5db; width:6px; height:6px;';
-      const label     = plans[key].label;
-      const labelCls  = isActive ? 'font-bold' : 'text-gray-400';
-      return `
-        <div class="flex flex-col items-center gap-1 flex-shrink-0">
-          <div style="border-radius:9999px; ${dotColor}" class="flex-shrink-0"></div>
-          <p class="text-[9px] ${labelCls}" style="${isActive ? 'color:' + plan.colorFrom : ''}">${label}</p>
-        </div>`;
-    }).join(`<div style="flex:1; height:1px; background:#e5e7eb; margin-top:-10px;"></div>`);
-
     const featuresHTML = plan.features.map(f =>
-      `<span class="text-[11px] text-gray-600 bg-gray-50 border border-gray-100 px-2.5 py-1 rounded-lg">${f}</span>`
+      `<div class="flex items-center gap-2.5">
+         <div class="w-1.5 h-1.5 rounded-full flex-shrink-0" style="background:${plan.colorFrom}"></div>
+         <span class="text-sm text-gray-700">${f}</span>
+       </div>`
     ).join('');
 
+    const monthlyHTML = plan.monthly
+      ? `<p class="text-sm mt-1" style="color:rgba(255,255,255,0.45)">${plan.monthly}</p>`
+      : '';
+
     const ctaHTML = isCurrent
-      ? `<div class="flex items-center justify-center gap-2 rounded-xl px-4 py-3" style="background:${plan.accentLight}">
-           <svg class="w-3.5 h-3.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" style="color:${plan.colorFrom}"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-           <span class="text-sm font-semibold" style="color:${plan.colorFrom}">You're on this plan</span>
+      ? `<div class="flex items-center justify-center gap-2 rounded-2xl px-4 py-3.5" style="background:${plan.accentLight}">
+           <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" style="color:${plan.colorFrom}"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+           <span class="text-sm font-semibold" style="color:${plan.colorFrom}">You're currently on this plan</span>
          </div>`
       : `<button onclick="Alpine.store('sheet').open('plan-switch', { key: '${plan.key}' })"
-                class="btn-primary w-full text-white font-semibold rounded-full py-3.5 text-sm hover:opacity-90 transition-opacity"
+                class="btn-primary w-full text-white font-bold rounded-2xl py-4 text-base tracking-tight hover:opacity-90 transition-opacity"
                 style="background:${plan.colorFrom}">
-           Switch to ${plan.label}
+           Switch to ${plan.label} →
          </button>`;
 
     return `
-      <div class="rounded-2xl overflow-hidden bg-white" style="border: 2px solid ${isCurrent ? plan.colorFrom : '#f3f4f6'};">
-        <!-- Gradient header -->
-        <div class="relative overflow-hidden px-5 pt-5 pb-5"
-             style="background: linear-gradient(135deg, ${plan.colorFrom} 0%, ${plan.colorTo} 100%);">
-          <div class="absolute -top-8 -right-8 w-32 h-32 rounded-full" style="background:rgba(255,255,255,0.08);"></div>
-          <div class="absolute top-3 right-20 w-8 h-8 rounded-full" style="background:rgba(255,255,255,0.05);"></div>
-          <div class="flex items-center justify-between mb-3 relative">
-            <span class="text-[10px] font-bold text-white/60 uppercase tracking-widest bg-white/10 rounded-md px-2 py-0.5">${plan.stage}</span>
-            ${isCurrent ? `<span class="text-[10px] font-semibold text-white/90 bg-white/20 px-2.5 py-1 rounded-full">Current plan</span>` : ''}
+      <div class="rounded-3xl overflow-hidden bg-white shadow-sm" style="border: 2px solid ${isCurrent ? plan.colorFrom : '#f0f0f0'};">
+
+        <!-- Hero zone -->
+        <div class="relative overflow-hidden flex flex-col justify-between"
+             style="background: linear-gradient(145deg, ${plan.colorFrom} 0%, ${plan.colorTo} 100%); min-height: 220px; padding: 24px;">
+
+          <!-- Decorative blobs -->
+          <div class="absolute" style="width:200px;height:200px;border-radius:9999px;background:rgba(255,255,255,0.06);top:-60px;right:-60px;"></div>
+          <div class="absolute" style="width:120px;height:120px;border-radius:9999px;background:rgba(255,255,255,0.04);bottom:-30px;left:-30px;"></div>
+
+          <!-- Top row: stage + current badge -->
+          <div class="flex items-center justify-between relative">
+            <span style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.5);letter-spacing:0.1em;text-transform:uppercase;background:rgba(255,255,255,0.1);padding:3px 10px;border-radius:6px;">${plan.stage}</span>
+            ${isCurrent ? `<span style="font-size:10px;font-weight:600;color:rgba(255,255,255,0.9);background:rgba(255,255,255,0.2);padding:4px 12px;border-radius:9999px;">Current plan</span>` : ''}
           </div>
-          <p class="text-xl font-bold text-white leading-snug mb-1 relative">${plan.outcome}</p>
-          <p class="text-sm mb-4 relative leading-relaxed" style="color:rgba(255,255,255,0.6)">${plan.description}</p>
-          <div class="flex items-end gap-1.5 relative">
-            <p class="text-3xl font-bold text-white leading-none">${plan.price}</p>
-            <p class="text-sm mb-0.5" style="color:rgba(255,255,255,0.5)">${plan.period}</p>
-            <p class="text-xs mb-0.5 ml-1" style="color:rgba(255,255,255,0.35)">${plan.monthly}</p>
+
+          <!-- Bottom: headline + price -->
+          <div class="relative">
+            <p style="font-size:26px;font-weight:800;color:white;line-height:1.15;margin-bottom:6px;letter-spacing:-0.02em;">${plan.pitch}</p>
+            <p style="font-size:13px;color:rgba(255,255,255,0.55);line-height:1.5;margin-bottom:20px;">${plan.tagline}</p>
+            <div style="display:flex;align-items:flex-end;gap:6px;">
+              <p style="font-size:44px;font-weight:800;color:white;line-height:1;letter-spacing:-0.03em;">${plan.price}</p>
+              <p style="font-size:14px;color:rgba(255,255,255,0.45);margin-bottom:6px;">${plan.period}</p>
+            </div>
+            ${monthlyHTML}
           </div>
         </div>
-        <!-- Features + CTA -->
-        <div class="px-5 py-4">
-          <p class="text-[11px] font-semibold text-gray-400 uppercase tracking-widest mb-3">What's included</p>
-          <div class="flex flex-wrap gap-1.5 mb-5">${featuresHTML}</div>
+
+        <!-- Body: features + CTA -->
+        <div style="padding: 20px 24px 24px;">
+          <p style="font-size:10px;font-weight:700;color:#9ca3af;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:14px;">What's included</p>
+          <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:24px;">
+            ${featuresHTML}
+          </div>
           ${ctaHTML}
         </div>
+
       </div>`;
   }
 
